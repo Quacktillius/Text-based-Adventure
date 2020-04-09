@@ -2,10 +2,8 @@
 
 ## Members:
 
-Name | UID | Username
------
 Anchit Mishra | | 
-Ajayveer Singh | 3035664635 | Quacktillius
+Ajayveer Singh | UID:3035664635 | Username: Quacktillius
 
 ## Proposal
 
@@ -20,9 +18,9 @@ The fun game mehanics will be the game's main feature, but there will also be a 
 
 ###### Player
 The player will control a ship at the bottom of the screen.
-*Can move horizontally
-*Can fire
-*Can pick up "power-ups" that grant special abilites
+* Can move horizontally
+* Can fire
+* Can pick up "power-ups" that grant special abilites
 
 ###### Enemies
 Enemies will randomly appear at the top of the screen and move downwards.
