@@ -15,7 +15,10 @@ In this project, we will use the 1981 arcade game **Galaga** as a source of insp
 
 ### Game Description
 ##### Name: Astrid Crisis (not final)
-The fun game mechanics and its arcadey style will be the game's main feature, but there will also be a minimalistic story-line with a beginning and an end to guide the gameplay. 
+The fun game mechanics and its arcadey style will be the game's main feature, but there will also be a minimalistic story-line with a beginning and an end to guide the gameplay.
+
+##### Premise
+You are a combat pilot sent as part of the UN Space Exploration Team (UNSET) to the newly discovered exoplanet Astrid. However, upon arrival you quickly find out that the planet was a trap set up by Alien Demons. With all of your crew members dead, you must fight your way back to the interdimensional portal to Earth.
 
 ##### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive by avoiding incoming projectiles.
 
@@ -38,6 +41,6 @@ There will also be 'boss' enemies, with their own set of moves and nuances.
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Generation of Random Events              | Enemies, obstacles and power-ups will be spawned randomly into the game world                              |                               
 | Data Structures for Storing Game Status  | We will use classes and objects in order to store game status in binary files                              |
-| Dynamic Memory Management (DMM)          | We will implement DMM to maintain queues of objects to be spawned into the game world in  the future       |
+| Dynamic Memory Management (DMM)          | We will implement DMM to maintain queues of objects to be spawned into the game world                     |
 | File Input/Output                        | We will use file handling for reading and writing binary file saves as mentioned above                     |
 | Multiple Files of Program Code           | We will use separate files for various features of the game (player actions, enemy actions, save/load, menu etc.)       |
