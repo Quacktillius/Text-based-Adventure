@@ -2,8 +2,12 @@
 
 ## Members:
 
-Anchit Mishra | UID: 3035665665 | Username: anchit1729 | | 
-Ajayveer Singh | UID:3035664635 | Username: Quacktillius
+- Anchit Mishra 
+  - UID: 3035665665 
+     - Username: anchit1729 
+- Ajayveer Singh 
+  - UID:3035664635 
+     - Username: Quacktillius
 
 ## Proposal
 
@@ -14,7 +18,7 @@ In this project, we will use the 1981 arcade game, Galaga, as a source of inspir
 The fun game mehanics will be the game's main feature, but there will also be a short story-line with a beginning and an end.
 ##### Mechanics: 
 
-###### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive by avoiding incoming projectiles.
+##### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive by avoiding incoming projectiles.
 
 ###### Player
 The player will control a ship at the bottom of the screen.
