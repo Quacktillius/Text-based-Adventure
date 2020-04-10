@@ -27,6 +27,7 @@ The player will control a ship at the bottom of the screen.
 * Can move horizontally
 * Can fire projectiles towards enemies
 * Can pick up "power-ups" that grant special abilities such as increased damage, faster movement etc.
+* Has 100 points of health, and 3 lives, i.e can respawn thrice without having to restart
 
 ##### Enemies
 Enemies will randomly appear at the top of the screen and move downwards. There will be distinct classes of enemies and each class will add some nuances to the core gameplay loop.
@@ -34,6 +35,13 @@ Some enemies will have armor, and will be harder to gun down.
 Other enemies will be able to fire 'waves' of multiple projectiles, making it harder for the player to dodge them.
 Some enemies might move horizontally too, making it harder for the player to hit them.
 There will also be 'boss' enemies, with their own set of moves and nuances.
+
+##### Power Ups (tentative list)
+* BFB (inspired by the BFG from the Doom games, it kills all enemy ships in one shot, but is one use only)
+* Fast Blast (increases frequency of player shots by 100%)
+* Extra Life (lets the player respawn once more without losing progress)
+* Shield Orbs (makes player invincible to damage for a short duration)
+* Hyperjets (makes player movements 100% faster)
 
 ### Game Features (Corresponding to Coding Requirements)
 
