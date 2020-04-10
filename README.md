@@ -49,6 +49,6 @@ There will also be 'boss' enemies, with their own set of moves and nuances.
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | Generation of Random Events              | Enemies, obstacles and power-ups will be spawned randomly into the game world                              |                               
 | Data Structures for Storing Game Status  | We will use classes and objects in order to store game status in binary files                              |
-| Dynamic Memory Management (DMM)          | We will implement DMM to maintain queues of objects to be spawned into the game world                     |
+| Dynamic Memory Management (DMM)          | We will implement DMM to maintain dynamic queues of objects to be spawned into the game world            |
 | File Input/Output                        | We will use file handling for reading and writing binary file saves as mentioned above                     |
 | Multiple Files of Program Code           | We will use separate files for various features of the game (player actions, enemy actions, save/load, menu etc.)       |
