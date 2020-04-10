@@ -19,13 +19,13 @@ The fun game mechanics and its arcadey style will be the game's main feature, bu
 
 ##### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive by avoiding incoming projectiles.
 
-###### Player Mechanics
+##### Player Mechanics
 The player will control a ship at the bottom of the screen.
 * Can move horizontally
 * Can fire projectiles towards enemies
 * Can pick up "power-ups" that grant special abilities such as increased damage, faster movement etc.
 
-###### Enemies
+##### Enemies
 Enemies will randomly appear at the top of the screen and move downwards. There will be distinct classes of enemies and each class will add some nuances to the core gameplay loop.
 Some enemies will have armor, and will be harder to gun down.
 Other enemies will be able to fire 'waves' of multiple projectiles, making it harder for the player to dodge them.
