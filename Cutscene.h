@@ -6,7 +6,8 @@
 #include<thread>
 
 class cutscene {
-	std::string screen[25];
+	static const int height_cutscene = 7;
+	std::string screen[height_cutscene];
 public:
 	void play_cutscene(int cutscene_number);
 	void display();
