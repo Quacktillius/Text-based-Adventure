@@ -7,13 +7,16 @@
 
 class game {
     int player_x, player_y;
+    const int max_projectiles=5;
+    int projectiles[5][2];
     const int max_number_of_enemies=5;
-    int enemies[max_number_of_enemies][2];
+    int enemies[5][2];
 public:
     game();
-    game(int,int,int[max_number_of_enemies][2]);
+    game(int,int,int[5][2]);
     void display(WINDOW * win);
-    bool isover();
+    void update();
+    bool isOver();
     void playerMove(char);
 };
 
