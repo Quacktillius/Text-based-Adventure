@@ -9,7 +9,7 @@ int main() {
 	WINDOW * win = newwin(48, 80, 0, 0);
 	int count=100;
 	char c;
-	int px=40, py=40;
+	int px=35, py=35;
 	int pe[5][2]={{1,5},{1,20},{1,35},{1,40},{1,70}};
 	game game1(px,py,pe);
 	while(count-- >= 0){
@@ -18,7 +18,7 @@ int main() {
 		game1.display(win);
 		wrefresh(win);
 		sleep(1);
-		//wrefresh(win);
+		werase(win);
 		game1.update();
 		if(game1.isOver()) break;
 
