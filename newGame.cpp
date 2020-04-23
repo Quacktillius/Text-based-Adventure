@@ -2,11 +2,11 @@
 
 void game::display(WINDOW * win) {
     wmove(win, player_y, player_x);
-    waddstr(win, "###");
-    wmove(win player_y+1, player_x+2);
-    waddstr(win,"####>");
+    waddstr(win, " ^ ");
+    wmove(win player_y+1, player_x);
+    waddstr(win, "/#\\");
     wmove(win, player_y+2, player_x);
-    waddstr(win, "###");
+    waddstr(win, "H#H");
 
     for(int i=0; i<max_number_of_enemies; i++) {
         if(enemies[i][1]==-1) continue;
@@ -20,4 +20,15 @@ void game::display(WINDOW * win) {
 	wmove(win, enemy_y, enemy_x);
 	waddstr(win, "X");
     } 
+}
+
+void game::playerMove(char move) {
+    switch(move) {
+        case 'a':
+            player_x = (player_x == 1) ? player_x : player_x-1; //Left world boundary is 0+1, as a border may be drawn
+	    break;
+	case 'd':
+	    player_x = (player_x == 76) ? player_x : player_x+1; //Right world boundary is 80-1-3, accounting for playermodel dimensions
+	    break;
+    }
 }
