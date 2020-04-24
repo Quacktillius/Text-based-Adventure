@@ -1,10 +1,7 @@
-#include <iostream>
-#include <unistd.h>
-#include <cstdlib>
-using namespace std;
+#include <menu.h>
 
-void menu() {
-    char input;
+int menu() {
+    int input;
     cout << "INITIALISING...\n";
     sleep(5);
     system("clear");
@@ -21,11 +18,10 @@ void menu() {
     cout << endl << endl;
     cout << "PLEASE SELECT AN OPTION: ";
     cin >> input;
-        
-}
-
-int main()  {
-    system("clear");
-    menu();
-    return 0;
+    if (input!=1 && input!=2 && input!=3) {
+        cout << "\nError. Reloading...";
+	sleep(2);
+	return menu();
+    }
+    return input;    
 }
