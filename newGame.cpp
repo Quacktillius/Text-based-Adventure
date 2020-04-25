@@ -13,7 +13,7 @@ game::game() {
     }
 }
 
-game::game(int px, int py, int pe[5][2]) {
+game::game(int px, int py, int pe[5][3]) {
     player_x=px;
     player_y=py;
     for(int i=0; i<max_projectiles; i++) {
@@ -23,6 +23,7 @@ game::game(int px, int py, int pe[5][2]) {
     for(int i=0; i<max_number_of_enemies; i++) {
         enemies[i][0]=pe[i][0];
 	enemies[i][1]=pe[i][1];
+	enemies[i][2]=pe[i][2];
     }
 }
 
@@ -41,7 +42,7 @@ void game::display(WINDOW * win) {
     }
 
     for(int i=0; i<max_number_of_enemies; i++) {
-        if(enemies[i][0]==-1) continue;
+        if(enemies[i][0]==-1 || enemies[i][2]==-1) continue;
         int enemy_y=enemies[i][0], enemy_x=enemies[i][1];
 	bool overlap=false;
 	for(int a=player_x; a<player_x+7; a++)
@@ -49,27 +50,32 @@ void game::display(WINDOW * win) {
                 if(enemy_y==b && enemy_x==a) 
                     overlap=true;
 	for(int a=0; a<max_projectiles; a++) {
-            if(enemy_y==projectiles[i][0] && enemy_x==projectiles[i][1])
+            if(enemy_y==projectiles[i][0] && (enemy_x==projectiles[i][1] || enemy_x+1==projectiles[i][1] || enemy_x+2==projectiles[i][1]))
                 overlap=true;
 	}
-        if(overlap) continue;
+        if(overlap) {
+	    continue;
+	    enemies[i][2]==-1;
+	}
 	wmove(win, enemy_y, enemy_x);
-	waddstr(win, "X");
+	waddstr(win, "X-X");
     } 
 }
 
-void game::update() {
+void game::update(int tick) {
     for(int i=0; i<max_projectiles; i++) {
         if(projectiles[i][0]==-1) continue;
 	projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0]-1;
     }
-    for(int i=0; i<max_number_of_enemies; i++) {
-        if(enemies[i][0]==-1) continue;
-	enemies[i][0] = (enemies[i][0] == 47) ? enemies[i][0] : enemies[i][0]+1;
+    if(tick%4==0) {
+        for(int i=0; i<max_number_of_enemies; i++) {
+            if(enemies[i][0]==-1) continue;
+	    enemies[i][0] = (enemies[i][0] == 47) ? enemies[i][0] : enemies[i][0]+1;
+        }
     }
     for(int i=0; i<max_number_of_enemies; i++) {
         for(int j=0; j< max_projectiles; j++) {
-            if(enemies[i][1] == projectiles[j][1] && enemies[i][0] >= projectiles[j][0]) {
+            if((enemies[i][1] == projectiles[j][1] || enemies[i][1]+1==projectiles[j][1] || enemies[i][1]+2==projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
                 enemies[i][0]=-1;
 		enemies[i][1]=-1;
 		projectiles[j][0]=-1;
