@@ -1,6 +1,6 @@
 #include<ncurses.h>
-#include<string>
-#include"menu.h"
+#include <string>
+#include "menu.h"
 
 bool drawMap(WINDOW * win, int px, int py, int pe[5][2]){
 	wmove(win, py, px);
