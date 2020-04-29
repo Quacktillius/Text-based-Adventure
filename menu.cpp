@@ -1,12 +1,17 @@
 #include "menu.h"
+
 using namespace std;
+
 int menu() {
     int input;
+
+    //display "INITIALISING..." with typewriter effect
     typewriter obj;
     obj.setMessage("INITIALISING...\n");
     obj.setPause(120);
     obj.display();
-    //cout << "INITIALISING...\n";
+    
+    //display Game Title
     sleep(5);
     system("clear");
     cout << "           ___      _        _     _   _____      _     _     \n";
@@ -21,11 +26,15 @@ int menu() {
     cout << "        3* EXIT\n";
     cout << endl << endl;
     cout << "PLEASE SELECT AN OPTION: ";
+
     cin >> input;
-    if (input!=1 && input!=2 && input!=3) {
+
+    //Wrong input
+    if (input != 1 && input != 2 && input != 3) {
         cout << "\nError. Reloading...";
 	sleep(2);
 	return menu();
     }
+
     return input;    
 }
