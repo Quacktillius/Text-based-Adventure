@@ -22,13 +22,13 @@ int main() {
 	int px=win_x/2, py=(win_y/6) * 5;
 	int pe[5][5]={{2,5,0,-1,-1},{1,20,0,-1,-1},{4,30,0, -1,-1},{3,11,0,-1,-1},{6,15,0,-1,-1}};
 	game game1(win, hud, 0,px,py, 3, pe);
-	while(count++ <= 300){
+	while(count++ <= 1000){
 		if((c=getch()) != ERR)
 			game1.playerMove(c);
 		game1.display(win, hud);
 		wrefresh(win);
 		wrefresh(hud);
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		werase(win);
 		werase(hud);
 		game1.update(count);

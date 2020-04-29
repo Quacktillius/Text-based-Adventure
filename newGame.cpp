@@ -112,8 +112,8 @@ void game::update(int tick) {
 	projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0] - 1;
     }
 
-    //only update enemies every 5 ticks
-    if(tick % 5 == 0) {
+    //only update enemies every 15 ticks
+    if(tick % 15 == 0) {
         for(int i = 0; i < max_number_of_enemies; i++) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
