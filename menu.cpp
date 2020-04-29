@@ -1,8 +1,12 @@
-#include <menu.h>
-
+#include "menu.h"
+using namespace std;
 int menu() {
     int input;
-    cout << "INITIALISING...\n";
+    typewriter obj;
+    obj.setMessage("INITIALISING...\n");
+    obj.setPause(120);
+    obj.display();
+    //cout << "INITIALISING...\n";
     sleep(5);
     system("clear");
     cout << "           ___      _        _     _   _____      _     _     \n";
