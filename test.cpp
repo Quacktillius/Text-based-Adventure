@@ -7,10 +7,13 @@
 int main() {
 	int choice=menu();
 	if(choice!=1) exit(1);
+  
+	// initialise ncurses stuff
 	initscr();
 	cbreak();
 	noecho();
 	nodelay(stdscr, TRUE);
+
 	int win_y, win_x, hud_y=5, hud_x;
 	getmaxyx(stdscr, win_y, win_x);
 	win_y-=6;
@@ -23,8 +26,8 @@ int main() {
 	int pe[5][5]={{2,5,0,-1,-1},{1,20,0,-1,-1},{4,30,0, -1,-1},{3,11,0,-1,-1},{6,15,0,-1,-1}};
 	game game1(win, hud, 0,px,py, 3, pe);
 	while(count++ <= 1000){
-		if((c=getch()) != ERR)
-			game1.playerMove(c);
+		if((c=getch()) != ERR) 
+        game1.playerMove(c);
 		game1.display(win, hud);
 		wrefresh(win);
 		wrefresh(hud);
@@ -36,6 +39,8 @@ int main() {
 
 	}
 	game1.display(win, hud);
+
+	// wrapping up ncurses output
 	wrefresh(win);
 	wrefresh(hud);
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -46,5 +51,6 @@ int main() {
 	delwin(win);
 	delwin(hud);
 	endwin();
+	
 	return 0;
 }
