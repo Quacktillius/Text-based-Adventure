@@ -177,3 +177,39 @@ void game::playerMove(char move) {
 	    break;
     }
 }
+
+bool game::enemies_empty() {
+    bool empty = true;
+    for(int i = 0; i < max_number_of_enemies; i++) {
+        if(!(enemies[i][0] == -1 || enemies[i][2] == -1)) {
+            empty = false;
+	}
+    }
+    return empty;
+}
+
+void game::generate_enemies(int no_of_enemies) {
+    for(int i = 0; i < no_of_enemies; i++) {
+        enemy E;
+	E.y = 1;
+	E.x = rand() % (win_x-3);
+	E.health = 0;
+	E.projectile_y = -1;
+	E.projectile_x = -1;
+        
+        all_enemies.push(E);	
+    }
+}
+
+void game::add_enemies() {
+    int i = 0;
+    while(!all_enemies.empty() && i++ < max_number_of_enemies) {
+        enemies[i][0] = all_enemies.front().y;
+	enemies[i][1] = all_enemies.front().x;
+	enemies[i][2] = all_enemies.front().health;
+	enemies[i][3] = all_enemies.front().projectile_y;
+	enemies[i][4] = all_enemies.front().projectile_x;
+
+	all_enemies.pop();
+    }
+}

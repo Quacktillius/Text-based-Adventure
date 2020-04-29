@@ -25,9 +25,12 @@ int main() {
 	int px=win_x/2, py=(win_y/6) * 5;
 	int pe[5][5]={{2,5,0,-1,-1},{1,20,0,-1,-1},{4,30,0, -1,-1},{3,11,0,-1,-1},{6,15,0,-1,-1}};
 	game game1(win, hud, 0,px,py, 3, pe);
-	while(count++ <= 1000){
+	game1.generate_enemies(20);
+	while(count++ <= 10000){
 		if((c=getch()) != ERR) 
-        game1.playerMove(c);
+                    game1.playerMove(c);
+		if(game1.enemies_empty())
+		    game1.add_enemies();
 		game1.display(win, hud);
 		wrefresh(win);
 		wrefresh(hud);
