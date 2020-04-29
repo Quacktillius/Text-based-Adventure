@@ -94,7 +94,7 @@ void game::update(int tick) {
         for(int i=0; i<max_number_of_enemies; i++) {
             if(enemies[i][0]==-1) continue;
 	    enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0]+1;
-	    if(enemies[i][0] == win_y - 1) player_health--;
+	    if(enemies[i][0] == win_y - 1) {player_health--; enemies[i][2]=-1;}
         }
     }
     for(int i=0; i<max_number_of_enemies; i++) {

@@ -35,7 +35,9 @@ int main() {
 		if(game1.isOver()) break;
 
 	}
+	game1.display(win, hud);
 	wrefresh(win);
+	wrefresh(hud);
 	wmove(win, 0, 0);
 	waddstr(win, "You Lost! Game over...");
 	wrefresh(win);
