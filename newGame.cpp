@@ -30,11 +30,8 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5
 	projectiles[i][1] = -1;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
-        enemies[i][0] = pe[i][0];
-	enemies[i][1] = pe[i][1];
-	enemies[i][2] = pe[i][2];
-	enemies[i][3] = pe[i][3];
-	enemies[i][4] = pe[i][4];
+        for(int stat=0; stat<5; stat++)
+	    enemies[i][stat] = pe[i][stat];
     }
 }
 
@@ -69,12 +66,12 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	for(int a = player_x; a < player_x + 7; a++)
             for(int b = player_y; b < player_y + 3; b++)
                 if(enemy_y == b && enemy_x == a) 
-                    overlap=true;
+                    overlap = true;
 
 	//check if enemy hit by projectile
 	for(int a = 0; a < max_projectiles; a++) {
             if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))
-                overlap=true;
+                overlap = true;
 	}
 
 	//if overlapping or hit - set enemy health to -1, and skip display
@@ -118,12 +115,20 @@ void game::update(int tick) {
     //only update enemies every 5 ticks
     if(tick % 5 == 0) {
         for(int i = 0; i < max_number_of_enemies; i++) {
-            if(enemies[i][0] == -1) 
+            if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
+
 	    enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
+
+	    //enemy reaches end of map
 	    if(enemies[i][0] == win_y - 1) {
-                player_health--; 
-		enemies[i][2] = -1;
+                player_health--;
+
+		//reset enemy to default
+		for(int reset = 0; reset < 5; reset++) {
+		    enemies[i][reset] = -1;
+		}
+
 	    }
         }
     }
@@ -133,8 +138,7 @@ void game::update(int tick) {
         for(int j = 0; j < max_projectiles; j++) {
             if((enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
 
-                enemies[i][0] = -1;
-		enemies[i][1] = -1;
+		enemies[i][2]--;
 		projectiles[j][0] = -1;
 		projectiles[j][1] = -1;
 	    }
