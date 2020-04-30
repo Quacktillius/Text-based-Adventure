@@ -8,6 +8,7 @@ game::game() {
     player_x = 0;
     player_y = 0;
     player_health=3;
+    
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
 	    projectiles[i][1] = -1;
@@ -76,7 +77,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
         //if overlapping or hit - set enemy health to -1, and skip display
         if(overlap) {
-            enemies[i][2] == -1;
+            enemies[i][2] = -1;
             continue;
         }
 

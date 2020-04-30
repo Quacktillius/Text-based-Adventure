@@ -26,7 +26,7 @@ class game {
 
     const int max_number_of_enemies=5;
     //y, x, health, projectile_y, projectile_x
-    std::vector<std::vector<int>> enemies(5, std::vector<int> (5, 0));
+    int enemies[5][5];
 
     struct powerup  {
         int y, x, duration, effect;
@@ -36,7 +36,7 @@ class game {
     std::queue<powerup> power_ups;
     const int max_number_of_powerups = 2;
     //y, x, duration, effect, appearance
-    std::vector<std::vector<int>> powerups(5, std::vector<int> (5, 0));
+    int powerups[5][5];
 
 public:
     game();
