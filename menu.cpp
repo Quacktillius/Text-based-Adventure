@@ -3,9 +3,16 @@
 using namespace std;
 
 int menu() {
+
     int input = 0;
-    system("clear");
-    cout << "INITIALISING...\n";
+
+    //display "INITIALISING..." with typewriter effect
+    typewriter obj;
+    obj.setMessage("INITIALISING...\n");
+    obj.setPause(120);
+    obj.display();
+    
+    //display Game Title
     sleep(5);
     while (input < 1 || input > 3)  {
         system("clear");
@@ -21,7 +28,9 @@ int menu() {
         cout << "        3* EXIT\n";
         cout << endl << endl;
         cout << "PLEASE SELECT AN OPTION: ";
+
         cin >> input;
+      
         switch(input)   {
             case 1: 
             case 2: 
@@ -30,5 +39,7 @@ int menu() {
                     sleep(2);
         }
     }
-    return input;    
+	sleep(2);
+	return input;
+
 }
