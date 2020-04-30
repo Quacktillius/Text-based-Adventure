@@ -30,7 +30,7 @@ int main() {
 	game1.generate_enemies(20);
 	while(count++ <= 10000){
 		if((c=getch()) != ERR) 
-                    game1.playerMove(c);
+            game1.playerMove(c);
 		if(game1.enemies_empty())
 		    game1.add_enemies();
 		game1.display(win, hud);
@@ -40,8 +40,8 @@ int main() {
 		werase(win);
 		werase(hud);
 		game1.update(count);
-		if(game1.isOver()) break;
-
+		if(game1.isOver()) 
+			break;
 	}
 	game1.display(win, hud);
 

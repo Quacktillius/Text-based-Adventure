@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <string>
 #include <queue>
+#include <vector>
 
 class game {
     int level;
@@ -25,14 +26,17 @@ class game {
 
     const int max_number_of_enemies=5;
     //y, x, health, projectile_y, projectile_x
-    int enemies[5][5];
+    std::vector<std::vector<int>> enemies(5, std::vector<int> (5, 0));
 
     struct powerup  {
         int y, x, duration, effect;
         char appearance;
     };
 
-    std::queue<powerup> power_ups; 
+    std::queue<powerup> power_ups;
+    const int max_number_of_powerups = 2;
+    //y, x, duration, effect, appearance
+    std::vector<std::vector<int>> powerups(5, std::vector<int> (5, 0));
 
 public:
     game();

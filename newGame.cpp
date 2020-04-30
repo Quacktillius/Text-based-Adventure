@@ -161,23 +161,23 @@ void game::playerMove(char move) {
             player_x = (player_x == 1) ? player_x : player_x - 1;
 	    break;
 
-	//right
-	case 'd':
-	    //Right world boundary is 80-1-3, accounting for player model dimensions
-	    player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 1;
-	    break;
-
-	//shoot
-	case 'w':
-	    for(int i=0; i<max_projectiles; i++) {
-            if(projectiles[i][0] != -1)
-                continue;
-            projectiles[i][0] = player_y - 1;
-            projectiles[i][1] = player_x;
+        //right
+        case 'd':
+            //Right world boundary is 80-1-3, accounting for player model dimensions
+            player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 1;
             break;
-	    }
-	    break;
-    }
+
+        //shoot
+        case 'w':
+            for(int i=0; i<max_projectiles; i++) {
+                if(projectiles[i][0] != -1)
+                    continue;
+                projectiles[i][0] = player_y - 1;
+                projectiles[i][1] = player_x;
+                break;
+            }
+            break;
+        }
 }
 
 bool game::enemies_empty() {
@@ -213,5 +213,18 @@ void game::add_enemies() {
         enemies[i][4] = all_enemies.front().projectile_x;
 
         all_enemies.pop();
+    }
+}
+
+void game::add_powerups()   {
+    int i = 0; 
+    while ((!power_ups.empty()) && (i++ < max_number_of_powerups))  {
+        powerups[i][0] = power_ups.front().y;
+        powerups[i][1] = power_ups.front().x;
+        powerups[i][2] = power_ups.front().duration;
+        powerups[i][3] = power_ups.front().effect;
+        powerups[i][4] = power_ups.front().appearance;
+
+        power_ups.pop();
     }
 }
