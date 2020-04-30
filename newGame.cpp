@@ -8,13 +8,14 @@ game::game() {
     player_x = 0;
     player_y = 0;
     player_health=3;
+    
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
-	projectiles[i][1] = -1;
+	    projectiles[i][1] = -1;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
         enemies[i][0] = -1;
-	enemies[i][1] = -1;
+	    enemies[i][1] = -1;
     }
 }
 
@@ -27,11 +28,11 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5
     player_health = ph;
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
-	projectiles[i][1] = -1;
+	    projectiles[i][1] = -1;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int stat=0; stat<5; stat++)
-	    enemies[i][stat] = pe[i][stat];
+	        enemies[i][stat] = pe[i][stat];
     }
 }
 
@@ -49,8 +50,8 @@ void game::display(WINDOW * win, WINDOW * hud) {
     for(int i = 0; i < max_projectiles; i++) {
         if(projectiles[i][0] == -1)
             continue;
-	wmove(win, projectiles[i][0], projectiles[i][1]);
-	waddch(win, '!');
+        wmove(win, projectiles[i][0], projectiles[i][1]);
+        waddch(win, '!');
     }
 
     //display enemies
@@ -60,29 +61,29 @@ void game::display(WINDOW * win, WINDOW * hud) {
             continue;
 
         int enemy_y = enemies[i][0], enemy_x = enemies[i][1];
-	bool overlap = false;
+        bool overlap = false;
 
-	//check overlapping between player and enemy (enemies[i])
-	for(int a = player_x; a < player_x + 7; a++)
-            for(int b = player_y; b < player_y + 3; b++)
-                if(enemy_y == b && enemy_x == a) 
+        //check overlapping between player and enemy (enemies[i])
+        for(int a = player_x; a < player_x + 7; a++)
+                for(int b = player_y; b < player_y + 3; b++)
+                    if(enemy_y == b && enemy_x == a) 
+                        overlap = true;
+
+        //check if enemy hit by projectile
+        for(int a = 0; a < max_projectiles; a++) {
+                if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))
                     overlap = true;
+        }
 
-	//check if enemy hit by projectile
-	for(int a = 0; a < max_projectiles; a++) {
-            if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))
-                overlap = true;
-	}
-
-	//if overlapping or hit - set enemy health to -1, and skip display
+        //if overlapping or hit - set enemy health to -1, and skip display
         if(overlap) {
-            enemies[i][2] == -1;
-	    continue;
-	}
+            enemies[i][2] = -1;
+            continue;
+        }
 
-	//display enemy. only 1 kind so far
-	wmove(win, enemy_y, enemy_x);
-	waddstr(win, "X-X");
+        //display enemy. only 1 kind so far
+        wmove(win, enemy_y, enemy_x);
+        waddstr(win, "X-X");
     } 
 
     //displaying the HUD
@@ -108,8 +109,9 @@ void game::update(int tick) {
 
     //update player projectiles
     for(int i = 0; i < max_projectiles; i++) {
-        if(projectiles[i][0] == -1) continue;
-	projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0] - 1;
+        if(projectiles[i][0] == -1) 
+            continue;
+	    projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0] - 1;
     }
 
     //only update enemies every 15 ticks
@@ -118,18 +120,18 @@ void game::update(int tick) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
 
-	    enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
+            enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
 
-	    //enemy reaches end of map
-	    if(enemies[i][0] == win_y - 1) {
-                player_health--;
+            //enemy reaches end of map
+            if(enemies[i][0] == win_y - 1) {
+                    player_health--;
 
-		//reset enemy to default
-		for(int reset = 0; reset < 5; reset++) {
-		    enemies[i][reset] = -1;
-		}
+            //reset enemy to default
+            for(int reset = 0; reset < 5; reset++) {
+                enemies[i][reset] = -1;
+            }
 
-	    }
+            }
         }
     }
 
@@ -138,11 +140,11 @@ void game::update(int tick) {
         for(int j = 0; j < max_projectiles; j++) {
             if((enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
 
-		enemies[i][2]--;
-		projectiles[j][0] = -1;
-		projectiles[j][1] = -1;
+            enemies[i][2]--;
+            projectiles[j][0] = -1;
+            projectiles[j][1] = -1;
+	        }
 	    }
-	}
     }
 }
 
@@ -160,22 +162,23 @@ void game::playerMove(char move) {
             player_x = (player_x == 1) ? player_x : player_x - 1;
 	    break;
 
-	//right
-	case 'd':
-	    //Right world boundary is 80-1-3, accounting for player model dimensions
-	    player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 1;
-	    break;
+        //right
+        case 'd':
+            //Right world boundary is 80-1-3, accounting for player model dimensions
+            player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 1;
+            break;
 
-	//shoot
-	case 'w':
-	    for(int i=0; i<max_projectiles; i++) {
-                if(projectiles[i][0] != -1)continue;
-		projectiles[i][0] = player_y - 1;
-		projectiles[i][1] = player_x;
-		break;
-	    }
-	    break;
-    }
+        //shoot
+        case 'w':
+            for(int i=0; i<max_projectiles; i++) {
+                if(projectiles[i][0] != -1)
+                    continue;
+                projectiles[i][0] = player_y - 1;
+                projectiles[i][1] = player_x;
+                break;
+            }
+            break;
+        }
 }
 
 bool game::enemies_empty() {
@@ -183,7 +186,17 @@ bool game::enemies_empty() {
     for(int i = 0; i < max_number_of_enemies; i++) {
         if(!(enemies[i][0] == -1 || enemies[i][2] == -1)) {
             empty = false;
-	}
+	    }
+    }
+    return empty;
+}
+
+bool game::powerups_empty() {
+    bool empty = true;
+    for (int i = 0; i < max_number_of_powerups; i++)    {
+        if (!(powerups[i][0] == -1 || powerups[i][2] == -1))    {
+            empty = false;
+        }
     }
     return empty;
 }
@@ -191,13 +204,26 @@ bool game::enemies_empty() {
 void game::generate_enemies(int no_of_enemies) {
     for(int i = 0; i < no_of_enemies; i++) {
         enemy E;
-	E.y = 1;
-	E.x = rand() % (win_x-3);
-	E.health = 0;
-	E.projectile_y = -1;
-	E.projectile_x = -1;
+        E.y = 1;
+        E.x = rand() % (win_x - 3);
+        E.health = 0;
+        E.projectile_y = -1;
+        E.projectile_x = -1;
         
         all_enemies.push(E);	
+    }
+}
+
+void game::generate_powerups(int no_of_powerups)    {
+    for (int i = 0; i < no_of_powerups; i++) {
+        powerup P;
+        P.y = 1;
+        P.x = rand() % (win_x - 3);
+        P.duration = rand() % 20;
+        P.effect = rand() % 4;
+        P.appearance = (char) appearances[P.effect];
+
+        power_ups.push(P);
     }
 }
 
@@ -205,11 +231,24 @@ void game::add_enemies() {
     int i = 0;
     while(!all_enemies.empty() && i++ < max_number_of_enemies) {
         enemies[i][0] = all_enemies.front().y;
-	enemies[i][1] = all_enemies.front().x;
-	enemies[i][2] = all_enemies.front().health;
-	enemies[i][3] = all_enemies.front().projectile_y;
-	enemies[i][4] = all_enemies.front().projectile_x;
+        enemies[i][1] = all_enemies.front().x;
+        enemies[i][2] = all_enemies.front().health;
+        enemies[i][3] = all_enemies.front().projectile_y;
+        enemies[i][4] = all_enemies.front().projectile_x;
 
-	all_enemies.pop();
+        all_enemies.pop();
+    }
+}
+
+void game::add_powerups()   {
+    int i = 0; 
+    while ((!power_ups.empty()) && (i++ < max_number_of_powerups))  {
+        powerups[i][0] = power_ups.front().y;
+        powerups[i][1] = power_ups.front().x;
+        powerups[i][2] = power_ups.front().duration;
+        powerups[i][3] = power_ups.front().effect;
+        powerups[i][4] = power_ups.front().appearance;
+
+        power_ups.pop();
     }
 }
