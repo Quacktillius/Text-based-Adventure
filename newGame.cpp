@@ -191,16 +191,39 @@ bool game::enemies_empty() {
     return empty;
 }
 
+bool game::powerups_empty() {
+    bool empty = true;
+    for (int i = 0; i < max_number_of_powerups; i++)    {
+        if (!(powerups[i][0] == -1 || powerups[i][2] == -1))    {
+            empty = false;
+        }
+    }
+    return empty;
+}
+
 void game::generate_enemies(int no_of_enemies) {
     for(int i = 0; i < no_of_enemies; i++) {
         enemy E;
         E.y = 1;
-        E.x = rand() % (win_x-3);
+        E.x = rand() % (win_x - 3);
         E.health = 0;
         E.projectile_y = -1;
         E.projectile_x = -1;
         
         all_enemies.push(E);	
+    }
+}
+
+void game::generate_powerups(int no_of_powerups)    {
+    for (int i = 0; i < no_of_powerups; i++) {
+        powerup P;
+        P.y = 1;
+        P.x = rand() % (win_x - 3);
+        P.duration = rand() % 20;
+        P.effect = rand() % 4;
+        P.appearance = (char) appearances[P.effect];
+
+        power_ups.push(P);
     }
 }
 
