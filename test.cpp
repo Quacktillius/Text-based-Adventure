@@ -1,9 +1,11 @@
-#include"newGame.h"
-#include<ncurses.h>
-#include<unistd.h>
-#include<chrono>
-#include<thread>
+#include "newGame.h"
+#include <ncurses.h>
+#include <unistd.h>
+#include <chrono>
+#include <thread>
 #include "menu.h"
+
+
 int main() {
 	int choice=menu();
 	if(choice!=1) exit(1);

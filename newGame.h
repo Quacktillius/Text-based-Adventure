@@ -26,6 +26,14 @@ class game {
     const int max_number_of_enemies=5;
     //y, x, health, projectile_y, projectile_x
     int enemies[5][5];
+
+    struct powerup  {
+        int y, x, duration, effect;
+        char appearance;
+    };
+
+    std::queue<powerup> power_ups; 
+
 public:
     game();
     game(WINDOW * win, WINDOW * hud,int,int,int,int,int[5][5]);
@@ -38,6 +46,8 @@ public:
     void generate_enemies(int);
     //adds enemies to enemies[][] array
     void add_enemies();
+    //adds power-ups to the screen
+    void add_powerups();
 };
 
 #endif
