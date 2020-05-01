@@ -105,7 +105,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
         //if overlapping - set used flag to 1, and skip display
         if (overlap)    {
-            powerups[i][5] = 1;
+            powerups[i][2] = 1;
             continue;
         }
 
