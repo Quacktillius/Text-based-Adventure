@@ -100,12 +100,12 @@ void game::display(WINDOW * win, WINDOW * hud) {
         
         int powerup_y = powerups[i][0];
         int powerup_x = powerups[i][1];
-        bool overlap = false;
+        bool overlap_player = false, overlap_enemy = false;
 
         //check whether the player overlaps with a power-up
         if (powerup_y >= player_y && powerup_y <= player_y + 2) {
             if (powerup_x >= player_x - 2 && powerup_x <= player_x + 2) {
-                overlap = true;
+                overlap_player = true;
             }
         }
 
@@ -121,10 +121,11 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	        for(int reset = 0; reset < 5; reset ++)
 		    powerups[i][reset] = -1;
 	    }
+	    overlap_enemy = true;
 	}
 
         //if overlapping - set used flag to 1, and skip display
-        if (overlap)    {
+        if (overlap_player) {
             powerups[i][2] = 1;
             switch(powerups[i][3])  {
                 case 1:
@@ -134,6 +135,10 @@ void game::display(WINDOW * win, WINDOW * hud) {
             }
             continue;
         }
+
+	else if (overlap_enemy) {
+            continue;
+	}
 
         //display powerup
         wmove(win, powerup_y, powerup_x);
@@ -206,9 +211,11 @@ void game::update(int tick) {
                 for (int reset = 0; reset < 5; reset++) {
                     powerups[i][reset] = -1;
                 }
+
+		/*
                 for (int j = 0; j < 5; j++) {
                     powerups[j][2] = 1;
-                }
+                }*/
             }
         }
     }
@@ -228,6 +235,8 @@ void game::update(int tick) {
 	        }
 	    }
     }
+
+    //if 
 }
 
 bool game::isOver() {
@@ -298,10 +307,14 @@ void game::generate_enemies(int no_of_enemies) {
 }
 
 void game::generate_powerups(int no_of_powerups)    {
-    srand(time(NULL));
+    //if the seed for srand is the exact same in both generate_enemies and generate_powerups (as this gets called immediately after that), then the y & x positions
+    //will be the same. Which might have been causeing the sticking error.
+    srand(time(NULL) + 1000);
     for (int i = 0; i < no_of_powerups; i++) {
         powerup P;
-        P.y = 1;
+	// to see if the powerup still sticks to enemies
+	// they do
+        P.y = 2;
         P.x = rand() % (win_x - 3);
         P.used = 0;
         //P.duration = rand() % 20;
