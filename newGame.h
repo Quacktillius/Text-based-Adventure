@@ -29,13 +29,13 @@ class game {
     int enemies[5][5];
 
     struct powerup  {
-        int y, x, duration, effect;
+        int y, x, effect, used;
         char appearance;
     };
 
     std::queue<powerup> power_ups;
     const int max_number_of_powerups = 2;
-    //y, x, duration, effect, appearance
+    //y, x, effect, used, appearance
     int powerups[5][5];
     int appearances[4] = {0xd1aa, 0xd1ae, 0xd1b0, 0xd296};
 

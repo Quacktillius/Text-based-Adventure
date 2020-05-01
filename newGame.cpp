@@ -64,10 +64,11 @@ void game::display(WINDOW * win, WINDOW * hud) {
         bool overlap = false;
 
         //check overlapping between player and enemy (enemies[i])
-        for(int a = player_x; a < player_x + 7; a++)
-                for(int b = player_y; b < player_y + 3; b++)
-                    if(enemy_y == b && enemy_x == a) 
-                        overlap = true;
+        if (enemy_y >= player_y && enemy_y <= player_y + 3) {
+            if (enemy_x >= player_x - 3 && enemy_x <= player_x + 3) {
+                overlap = true;
+            }
+        }
 
         //check if enemy hit by projectile
         for(int a = 0; a < max_projectiles; a++) {
@@ -85,6 +86,33 @@ void game::display(WINDOW * win, WINDOW * hud) {
         wmove(win, enemy_y, enemy_x);
         waddstr(win, "X-X");
     } 
+
+    //display the power-ups
+    for (int i = 0; i < max_number_of_powerups; i++)    {
+        if (powerups[i][0] == -1 || powerups[i][1] == -1)
+            continue;
+        
+        int powerup_y = powerups[i][0];
+        int powerup_x = powerups[i][1];
+        bool overlap = false;
+
+        //check whether the player overlaps with a power-up
+        if (powerup_y >= player_y && powerup_y <= player_y + 2) {
+            if (powerup_x >= player_x - 2 && powerup_x <= player_x + 2) {
+                overlap = true;
+            }
+        }
+
+        //if overlapping - set used flag to 1, and skip display
+        if (overlap)    {
+            powerups[i][5] = 1;
+            continue;
+        }
+
+        //display powerup
+        wmove(win, powerup_y, powerup_x);
+        waddstr(win, (char *) powerups[i][4]);
+    }
 
     //displaying the HUD
 
@@ -194,7 +222,7 @@ bool game::enemies_empty() {
 bool game::powerups_empty() {
     bool empty = true;
     for (int i = 0; i < max_number_of_powerups; i++)    {
-        if (!(powerups[i][0] == -1 || powerups[i][2] == -1))    {
+        if (!(powerups[i][0] == -1 || powerups[i][2] == 1))    {
             empty = false;
         }
     }
@@ -219,10 +247,10 @@ void game::generate_powerups(int no_of_powerups)    {
         powerup P;
         P.y = 1;
         P.x = rand() % (win_x - 3);
-        P.duration = rand() % 20;
+        P.used = 0;
+        //P.duration = rand() % 20;
         P.effect = rand() % 4;
         P.appearance = (char) appearances[P.effect];
-
         power_ups.push(P);
     }
 }
@@ -245,10 +273,11 @@ void game::add_powerups()   {
     while ((!power_ups.empty()) && (i++ < max_number_of_powerups))  {
         powerups[i][0] = power_ups.front().y;
         powerups[i][1] = power_ups.front().x;
-        powerups[i][2] = power_ups.front().duration;
+        //powerups[i][2] = power_ups.front().duration;
+        powerups[i][2] = power_ups.front().used;
         powerups[i][3] = power_ups.front().effect;
         powerups[i][4] = power_ups.front().appearance;
-
+        //powerups[i][5] = power_ups.front().used;
         power_ups.pop();
     }
 }
