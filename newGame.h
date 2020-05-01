@@ -14,7 +14,7 @@ class game {
     //max y and x values for win and hud
     int win_y, win_x, hud_y, hud_x;
 
-    int player_x, player_y, player_health;
+    int player_x, player_y, player_health, player_speed;
     const int max_projectiles=5;
     //y, x
     int projectiles[5][2];
@@ -41,7 +41,7 @@ class game {
 
 public:
     game();
-    game(WINDOW * win, WINDOW * hud,int,int,int,int,int[5][5]);
+    game(WINDOW * win, WINDOW * hud, int, int, int, int, int, int[5][5]);
     void display(WINDOW * win, WINDOW * hud);
     void update(int);
     bool isOver();
