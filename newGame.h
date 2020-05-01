@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <string>
 #include <queue>
-
+#include <time.h>
 
 class game {
     int level;

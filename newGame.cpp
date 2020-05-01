@@ -243,6 +243,7 @@ void game::generate_enemies(int no_of_enemies) {
 }
 
 void game::generate_powerups(int no_of_powerups)    {
+    srand(time(NULL));
     for (int i = 0; i < no_of_powerups; i++) {
         powerup P;
         P.y = 1;
