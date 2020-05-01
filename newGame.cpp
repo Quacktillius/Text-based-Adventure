@@ -154,10 +154,10 @@ void game::update(int tick) {
             if(enemies[i][0] == win_y - 1) {
                     player_health--;
 
-            //reset enemy to default
-            for(int reset = 0; reset < 5; reset++) {
-                enemies[i][reset] = -1;
-            }
+                //reset enemy to default
+                for(int reset = 0; reset < 5; reset++) {
+                    enemies[i][reset] = -1;
+                }
 
             }
         }
@@ -168,7 +168,11 @@ void game::update(int tick) {
         for(int j = 0; j < max_projectiles; j++) {
             if((enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
 
-            enemies[i][2]--;
+            //enemies[i][2]--;
+	    //resets enemies. TEMPORARY CODE. SHOULD FIX ENEMIES NOT DYING
+	    for(int reset = 0; reset < 5; reset++) {
+                enemies[i][reset] = -1;
+	    }
             projectiles[j][0] = -1;
             projectiles[j][1] = -1;
 	        }
@@ -230,6 +234,7 @@ bool game::powerups_empty() {
 }
 
 void game::generate_enemies(int no_of_enemies) {
+    srand(time(NULL));
     for(int i = 0; i < no_of_enemies; i++) {
         enemy E;
         E.y = 1;
