@@ -7,7 +7,8 @@ game::game() {
     hud_x = 0;
     player_x = 0;
     player_y = 0;
-    player_health=3;
+    player_health = 3;
+    player_speed = 2;
     
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
@@ -17,15 +18,20 @@ game::game() {
         enemies[i][0] = -1;
 	    enemies[i][1] = -1;
     }
+    for (int i = 0; i < max_number_of_powerups; i++)    {
+        powerups[i][0] = -1;
+        powerups[i][1] = -1;
+    }
 }
 
-game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5][5]) {
+game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int ps, int pe[5][5]) {
     getmaxyx(win, win_y, win_x);
     getmaxyx(hud, hud_y, hud_x);
     level = lvl;
     player_x = px;
     player_y = py;
     player_health = ph;
+    player_speed = ps;
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
 	    projectiles[i][1] = -1;
@@ -89,7 +95,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
     //display the power-ups
     for (int i = 0; i < max_number_of_powerups; i++)    {
-        if (powerups[i][0] == -1 || powerups[i][1] == -1)
+        if (powerups[i][0] == -1 || powerups[i][2] == 1)
             continue;
         
         int powerup_y = powerups[i][0];
@@ -106,12 +112,18 @@ void game::display(WINDOW * win, WINDOW * hud) {
         //if overlapping - set used flag to 1, and skip display
         if (overlap)    {
             powerups[i][2] = 1;
+            switch(powerups[i][3])  {
+                case 1:
+                case 2: player_health++;
+                case 3:
+                case 0: player_speed += 2;
+            }
             continue;
         }
 
         //display powerup
         wmove(win, powerup_y, powerup_x);
-        waddstr(win, (char *) powerups[i][4]);
+        waddstr(win, "*");
     }
 
     //displaying the HUD
@@ -142,8 +154,14 @@ void game::update(int tick) {
 	    projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0] - 1;
     }
 
-    //only update enemies every 15 ticks
-    if(tick % 15 == 0) {
+    //every TICK_COUNT * 100 ticks, check if a speed powerup is active. If so, disable its effects
+    if (tick % 1500 == 0)   {
+        if (player_speed > 2)
+            player_speed = 2;
+    }
+
+    //only update enemies every TICK_COUNT ticks, same for power-ups
+    if (tick % 15 == 0) {
         for(int i = 0; i < max_number_of_enemies; i++) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
@@ -159,6 +177,24 @@ void game::update(int tick) {
                     enemies[i][reset] = -1;
                 }
 
+            }
+        }
+        for (int i = 0; i < max_number_of_powerups; i++)    {
+            if (powerups[i][0] == -1 || powerups[i][2] == 1)
+                continue;
+
+            powerups[i][0] = (powerups[i][0] == win_y - 1) ? powerups[i][0] : powerups[i][0] + 1;
+
+            //powerup reaches end of map
+            if (powerups[i][0] == win_y - 1)    {
+
+                //reset powerup to default
+                for (int reset = 0; reset < 5; reset++) {
+                    powerups[i][reset] = -1;
+                }
+                for (int j = 0; j < 5; j++) {
+                    powerups[j][2] = 1;
+                }
             }
         }
     }
@@ -191,13 +227,13 @@ void game::playerMove(char move) {
 	//left
         case 'a':
             //Left world boundary is 0+1, as a border may be drawn
-            player_x = (player_x == 1) ? player_x : player_x - 1;
+            player_x = (player_x == 1) ? player_x : player_x - 2;
 	    break;
 
         //right
         case 'd':
             //Right world boundary is 80-1-3, accounting for player model dimensions
-            player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 1;
+            player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 2;
             break;
 
         //shoot
