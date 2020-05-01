@@ -109,6 +109,20 @@ void game::display(WINDOW * win, WINDOW * hud) {
             }
         }
 
+	//check if power-up overlaps with enemy
+	for(int a = 0; a < max_number_of_enemies; a++) {
+	    if(enemies[a][0] == -1 || enemies[a][2] == -1) 
+	        continue;
+            int enemy_y = enemies[a][0], enemy_x = enemies[a][1];
+
+	    if(powerup_y == enemy_y && powerup_x >= enemy_x && powerup_x <= enemy_x + 3) {
+
+		//reset powerup
+	        for(int reset = 0; reset < 5; reset ++)
+		    powerups[i][reset] = -1;
+	    }
+	}
+
         //if overlapping - set used flag to 1, and skip display
         if (overlap)    {
             powerups[i][2] = 1;
@@ -123,7 +137,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
         //display powerup
         wmove(win, powerup_y, powerup_x);
-        waddstr(win, "*");
+        waddch(win, '*');
     }
 
     //displaying the HUD
