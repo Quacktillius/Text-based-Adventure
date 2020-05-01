@@ -1,4 +1,5 @@
 #include "newGame.h"
+#include <iostream>
 
 game::game() {
     win_y = 0;
@@ -37,8 +38,12 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int ps, 
 	    projectiles[i][1] = -1;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
-        for(int stat=0; stat<5; stat++)
-	        enemies[i][stat] = pe[i][stat];
+        for(int stat = 0; stat < 5; stat++)
+	    enemies[i][stat] = pe[i][stat];
+    }
+    for(int i = 0; i < max_number_of_powerups; i++) {
+	for(int stat = 0; stat < 5; stat++)
+	    powerups[i][stat] = -1;
     }
 }
 
@@ -141,8 +146,8 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	}
 
         //display powerup
-        wmove(win, powerup_y, powerup_x);
-        waddch(win, '*');
+        wmove(hud, 1, 1);
+        waddstr(hud, std::to_string(powerup_y).c_str());
     }
 
     //displaying the HUD
@@ -199,7 +204,7 @@ void game::update(int tick) {
             }
         }
         for (int i = 0; i < max_number_of_powerups; i++)    {
-            if (powerups[i][0] == -1 || powerups[i][2] == 1)
+            if (powerups[i][0] == -1 || powerups[i][2] != 0) //changed from powerups[i][2] == 1
                 continue;
 
             powerups[i][0] = (powerups[i][0] == win_y - 1) ? powerups[i][0] : powerups[i][0] + 1;
@@ -285,7 +290,7 @@ bool game::enemies_empty() {
 bool game::powerups_empty() {
     bool empty = true;
     for (int i = 0; i < max_number_of_powerups; i++)    {
-        if (!(powerups[i][0] == -1 || powerups[i][2] == 1))    {
+        if (!(powerups[i][0] == -1 || powerups[i][2] != 0))    {
             empty = false;
         }
     }
@@ -314,7 +319,7 @@ void game::generate_powerups(int no_of_powerups)    {
         powerup P;
 	// to see if the powerup still sticks to enemies
 	// they do
-        P.y = 2;
+        P.y = 3;
         P.x = rand() % (win_x - 3);
         P.used = 0;
         //P.duration = rand() % 20;

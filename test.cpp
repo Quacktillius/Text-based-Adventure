@@ -34,7 +34,7 @@ int main() {
 	game1.generate_powerups(4);
 	while(count++ <= 10000){
 		if ((c = getch()) != ERR) 
-            game1.playerMove(c);
+                    game1.playerMove(c);
 		if (game1.enemies_empty())
 		    game1.add_enemies();
 		if (game1.powerups_empty())
