@@ -8,8 +8,10 @@
 
 int main() {
 	int choice=menu();
-	if(choice != 1) exit(1);
-  
+	if(choice != 1)	{
+		std::cout << std::endl;
+		exit(1);
+	}
 	// initialise ncurses stuff
 	initscr();
 	cbreak();
