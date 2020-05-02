@@ -109,7 +109,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
         //check whether the player overlaps with a power-up
         if (powerup_y >= player_y && powerup_y <= player_y + 2) {
-            if (powerup_x >= player_x - 2 && powerup_x <= player_x + 2) {
+            if (powerup_x >= player_x && powerup_x <= player_x + 2) {
                 overlap_player = true;
             }
         }
@@ -123,7 +123,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	    if(powerup_y == enemy_y && powerup_x >= enemy_x && powerup_x <= enemy_x + 3) {
 
 		//reset powerup
-	        for(int reset = 0; reset < 5; reset ++)
+	        for(int reset = 0; reset < 5; reset++)
 		    powerups[i][reset] = -1;
 	    }
 	    overlap_enemy = true;
@@ -146,8 +146,8 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	}
 
         //display powerup
-        wmove(hud, 1, 1);
-        waddstr(hud, std::to_string(powerup_y).c_str());
+        wmove(win, powerup_y, powerup_x);
+        waddstr(win, "*");
     }
 
     //displaying the HUD
@@ -207,10 +207,10 @@ void game::update(int tick) {
             if (powerups[i][0] == -1 || powerups[i][2] != 0) //changed from powerups[i][2] == 1
                 continue;
 
-            powerups[i][0] = (powerups[i][0] == win_y - 1) ? powerups[i][0] : powerups[i][0] + 1;
+            powerups[i][0] = (powerups[i][0] == win_y - 1) ? -1 : powerups[i][0] + 1;
 
-            //powerup reaches end of map
-            if (powerups[i][0] == win_y - 1)    {
+            //powerup reaches end of map or is empty
+            if (powerups[i][0] == - 1)    {
 
                 //reset powerup to default
                 for (int reset = 0; reset < 5; reset++) {
