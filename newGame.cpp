@@ -18,7 +18,7 @@ game::game() {
     }
 }
 
-game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5][5], int pu[5][2]) {
+game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5][5], int pu[1][3]) {
     getmaxyx(win, win_y, win_x);
     getmaxyx(hud, hud_y, hud_x);
     level = lvl;
@@ -34,7 +34,7 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5
 	    enemies[i][stat] = pe[i][stat];
     }
     for(int i = 0; i < max_number_of_powerups; i++) {
-        for(int stat = 0; stat < 2; stat++)
+        for(int stat = 0; stat < 3; stat++)
 	    powerups[i][stat] = pu[i][stat];
     }
 }
@@ -90,12 +90,16 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	//display powerup
 	for(int j = 0; j < max_number_of_powerups; j++) {
+
+	    //if powerup overlaps with enemy
 	    if(powerups[j][0] == -1 || powerups[j][0] == enemy_y && powerups[j][1] >= enemy_x && powerups[j][1] <= enemy_x + 3) {
 	        powerups[j][0] == -1;
 	    }
+
+	    //to make sure powerup y,x are withing WINDOW * win. Stops powerup from "sticking" to enemies
 	    else if(powerups[j][0] >= 0 && powerups[j][1] >= 0 && powerups[j][0] <= win_y - 1 && powerups[j][1] <= win_x - 1) {
 	        wmove(win, powerups[j][0], powerups[j][1]);
-	        waddch(win, 'P');
+	        waddch(win, powerup_appearance[powerups[0][2]]);
 	    }
 	}
     } 
@@ -211,6 +215,7 @@ bool game::enemies_empty() {
 }
 
 void game::generate_enemies(int no_of_enemies) {
+    srand(time(NULL));
     for(int i = 0; i < no_of_enemies; i++) {
         enemy E;
 	E.y = 1;
@@ -225,7 +230,7 @@ void game::generate_enemies(int no_of_enemies) {
 
 void game::add_enemies() {
     int i = 0;
-    while(!all_enemies.empty() && i++ < max_number_of_enemies) {
+    while(!all_enemies.empty() && i < max_number_of_enemies) {
         enemies[i][0] = all_enemies.front().y;
 	enemies[i][1] = all_enemies.front().x;
 	enemies[i][2] = all_enemies.front().health;
@@ -233,5 +238,38 @@ void game::add_enemies() {
 	enemies[i][4] = all_enemies.front().projectile_x;
 
 	all_enemies.pop();
+	i++;
     }
+}
+
+bool game::powerups_empty() {
+    bool empty = true;
+    for(int i = 0; i < max_number_of_powerups; i++) {
+        if(powerups[i][0] != -1)
+	    empty = false;
+    }
+    return empty;
+}
+
+void game::generate_powerups(int no_of_powerups) {
+    srand(time(NULL) + no_of_powerups + 10000);
+    for(int i = 0; i < no_of_powerups; i++) {
+        powerup P;
+	P.y = rand() % (3);
+	P.x = rand() % (win_x - 3);
+	P.type = rand() % (2);
+
+	all_powerups.push(P);
+    }
+}
+
+void game::add_powerups() {
+    int i = 0;
+    while(!all_powerups.empty() && i < max_number_of_powerups) {
+        powerups[i][0] = all_powerups.front().y;
+	powerups[i][1] = all_powerups.front().x;
+	powerups[i][2] = all_powerups.front().type;
+	i++;
+    }
+    all_powerups.pop();
 }

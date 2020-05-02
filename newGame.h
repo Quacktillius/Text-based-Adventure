@@ -27,12 +27,20 @@ class game {
     //y, x, health, projectile_y, projectile_x
     int enemies[5][5];
 
-    const int max_number_of_powerups = 5;
-    //y, x
-    int powerups[5][2];
+    struct powerup {
+        int y, x, type;
+    };
+    std::queue<powerup> all_powerups;
+
+    const int types_of_powerups = 2;
+    char powerup_appearance[2] = {'#','*'};
+
+    const int max_number_of_powerups = 1;
+    //y, x, type
+    int powerups[1][3];
 public:
     game();
-    game(WINDOW * win, WINDOW * hud,int,int,int,int,int[5][5],int[5][2]);
+    game(WINDOW * win, WINDOW * hud,int,int,int,int,int[5][5],int[1][3]);
     void display(WINDOW * win, WINDOW * hud);
     void update(int);
     bool isOver();
@@ -42,6 +50,11 @@ public:
     void generate_enemies(int);
     //adds enemies to enemies[][] array
     void add_enemies();
+    bool powerups_empty();
+    //adds powerups to queue
+    void generate_powerups(int);
+    //adds powerups to array
+    void add_powerups();
 };
 
 #endif
