@@ -26,9 +26,13 @@ class game {
     const int max_number_of_enemies=5;
     //y, x, health, projectile_y, projectile_x
     int enemies[5][5];
+
+    const int max_number_of_powerups = 5;
+    //y, x
+    int powerups[5][2];
 public:
     game();
-    game(WINDOW * win, WINDOW * hud,int,int,int,int,int[5][5]);
+    game(WINDOW * win, WINDOW * hud,int,int,int,int,int[5][5],int[5][2]);
     void display(WINDOW * win, WINDOW * hud);
     void update(int);
     bool isOver();

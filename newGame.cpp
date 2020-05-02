@@ -18,7 +18,7 @@ game::game() {
     }
 }
 
-game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5][5]) {
+game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5][5], int pu[5][2]) {
     getmaxyx(win, win_y, win_x);
     getmaxyx(hud, hud_y, hud_x);
     level = lvl;
@@ -30,8 +30,12 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int pe[5
 	projectiles[i][1] = -1;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
-        for(int stat=0; stat<5; stat++)
+        for(int stat = 0; stat < 5; stat++)
 	    enemies[i][stat] = pe[i][stat];
+    }
+    for(int i = 0; i < max_number_of_powerups; i++) {
+        for(int stat = 0; stat < 2; stat++)
+	    powerups[i][stat] = pu[i][stat];
     }
 }
 
@@ -83,6 +87,17 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	//display enemy. only 1 kind so far
 	wmove(win, enemy_y, enemy_x);
 	waddstr(win, "X-X");
+
+	//display powerup
+	for(int j = 0; j < max_number_of_powerups; j++) {
+	    if(powerups[j][0] == -1 || powerups[j][0] == enemy_y && powerups[j][1] >= enemy_x && powerups[j][1] <= enemy_x + 3) {
+	        powerups[j][0] == -1;
+	    }
+	    else if(powerups[j][0] >= 0 && powerups[j][1] >= 0 && powerups[j][0] <= win_y - 1 && powerups[j][1] <= win_x - 1) {
+	        wmove(win, powerups[j][0], powerups[j][1]);
+	        waddch(win, 'P');
+	    }
+	}
     } 
 
     //displaying the HUD
@@ -143,6 +158,13 @@ void game::update(int tick) {
 		projectiles[j][1] = -1;
 	    }
 	}
+    }
+    //powerups
+    if(tick % 15 == 0)
+    for(int i = 0; i < max_number_of_powerups; i++) {
+	if(powerups[i][0] == -1)
+	    continue;
+        powerups[i][0] = (powerups[i][0] == win_y - 1) ? -1 : powerups[i][0] + 1;
     }
 }
 
