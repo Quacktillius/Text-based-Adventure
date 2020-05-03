@@ -3,19 +3,28 @@
 #include<unistd.h>
 #include<chrono>
 #include<thread>
-#include "menu.h"
+//#include "menu.h"
+#include "mainMenu.h"
 int main() {
-	int choice=menu();
-	if(choice!=1) exit(1);
   
 	// initialise ncurses stuff
 	initscr();
 	cbreak();
-	noecho();
-	nodelay(stdscr, TRUE);
 
 	int win_y, win_x, hud_y=5, hud_x;
 	getmaxyx(stdscr, win_y, win_x);
+
+	WINDOW * mm = newwin(win_y, win_x, 0, 0);
+	int choice = main_menu(mm, win_y, win_x);
+	delwin(mm);
+	if(choice == '3') {
+		endwin();
+		exit(1);
+	}
+
+	noecho();
+	nodelay(stdscr, TRUE);
+
 	win_y -= 6;
 	hud_x = win_x;
 	WINDOW * win = newwin(win_y, win_x, 0, 0);
