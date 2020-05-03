@@ -8,9 +8,10 @@ game::game() {
     hud_x = 0;
     player_x = 0;
     player_y = 0;
-    player_health = 3;
-    player_speed = 2;
-    
+    player_health=3;
+    player_speed=2;
+    player_countdown=0;
+    bfb_used = false;
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
 	    projectiles[i][1] = -1;
@@ -19,13 +20,9 @@ game::game() {
         enemies[i][0] = -1;
 	    enemies[i][1] = -1;
     }
-    for (int i = 0; i < max_number_of_powerups; i++)    {
-        powerups[i][0] = -1;
-        powerups[i][1] = -1;
-    }
 }
 
-game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int ps, int pe[5][5]) {
+game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int ph, int pe[5][5], int pu[1][3]) {
     getmaxyx(win, win_y, win_x);
     getmaxyx(hud, hud_y, hud_x);
     level = lvl;
@@ -33,17 +30,19 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ph, int ps, 
     player_y = py;
     player_health = ph;
     player_speed = ps;
+    player_countdown = 0;
+    bfb_used = false;
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -1;
 	    projectiles[i][1] = -1;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int stat = 0; stat < 5; stat++)
-	    enemies[i][stat] = pe[i][stat];
+	        enemies[i][stat] = pe[i][stat];
     }
     for(int i = 0; i < max_number_of_powerups; i++) {
-	for(int stat = 0; stat < 5; stat++)
-	    powerups[i][stat] = -1;
+        for(int stat = 0; stat < 3; stat++)
+	        powerups[i][stat] = pu[i][stat];
     }
 }
 
@@ -61,8 +60,8 @@ void game::display(WINDOW * win, WINDOW * hud) {
     for(int i = 0; i < max_projectiles; i++) {
         if(projectiles[i][0] == -1)
             continue;
-        wmove(win, projectiles[i][0], projectiles[i][1]);
-        waddch(win, '!');
+	    wmove(win, projectiles[i][0], projectiles[i][1]);
+	    waddch(win, '!');
     }
 
     //display enemies
@@ -72,83 +71,66 @@ void game::display(WINDOW * win, WINDOW * hud) {
             continue;
 
         int enemy_y = enemies[i][0], enemy_x = enemies[i][1];
-        bool overlap = false;
+	    bool overlap = false;
 
-        //check overlapping between player and enemy (enemies[i])
-        if (enemy_y >= player_y && enemy_y <= player_y + 3) {
-            if (enemy_x >= player_x - 3 && enemy_x <= player_x + 3) {
-                overlap = true;
-            }
-        }
-
-        //check if enemy hit by projectile
-        for(int a = 0; a < max_projectiles; a++) {
-                if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))
+	    //check overlapping between player and enemy (enemies[i])
+	    for(int a = player_x; a < player_x + 7; a++)
+            for(int b = player_y; b < player_y + 3; b++)
+                if(enemy_y == b && enemy_x == a) 
                     overlap = true;
-        }
 
-        //if overlapping or hit - set enemy health to -1, and skip display
+	    //check if enemy hit by projectile
+	    for(int a = 0; a < max_projectiles; a++) {
+            if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))
+                overlap = true;
+	    }
+
+	    //if overlapping or hit - set enemy health to -1, and skip display
         if(overlap) {
             enemies[i][2] = -1;
-            continue;
-        }
-
-        //display enemy. only 1 kind so far
-        wmove(win, enemy_y, enemy_x);
-        waddstr(win, "X-X");
-    } 
-
-    //display the power-ups
-    for (int i = 0; i < max_number_of_powerups; i++)    {
-        if (powerups[i][0] == -1 || powerups[i][2] == 1)
-            continue;
-        
-        int powerup_y = powerups[i][0];
-        int powerup_x = powerups[i][1];
-        bool overlap_player = false, overlap_enemy = false;
-
-        //check whether the player overlaps with a power-up
-        if (powerup_y >= player_y && powerup_y <= player_y + 2) {
-            if (powerup_x >= player_x && powerup_x <= player_x + 2) {
-                overlap_player = true;
-            }
-        }
-
-	//check if power-up overlaps with enemy
-	for(int a = 0; a < max_number_of_enemies; a++) {
-	    if(enemies[a][0] == -1 || enemies[a][2] == -1) 
 	        continue;
-            int enemy_y = enemies[a][0], enemy_x = enemies[a][1];
-
-	    if(powerup_y == enemy_y && powerup_x >= enemy_x && powerup_x <= enemy_x + 3) {
-
-		//reset powerup
-	        for(int reset = 0; reset < 5; reset++)
-		    powerups[i][reset] = -1;
 	    }
-	    overlap_enemy = true;
-	}
 
-        //if overlapping - set used flag to 1, and skip display
-        if (overlap_player) {
-            powerups[i][2] = 1;
-            switch(powerups[i][3])  {
-                case 1:
-                case 2: player_health++;
-                case 3:
-                case 0: player_speed += 2;
+	    //display enemy. only 1 kind so far
+	    wmove(win, enemy_y, enemy_x);
+	    waddstr(win, "X-X");
+
+	    //display powerup
+	    for(int j = 0; j < max_number_of_powerups; j++) {
+
+	        //if powerup overlaps with enemy
+	        if((powerups[j][0] == -1) || (powerups[j][0] == enemy_y && powerups[j][1] >= enemy_x && powerups[j][1] <= enemy_x + 3)) {
+	            powerups[j][0] = -1;
+	        }
+
+            //if powerup overlaps with player
+            if((powerups[j][0] == player_y) && (powerups[j][1] >= player_x) && (powerups[j][1] <= player_x + 7))    {
+                powerups[j][0] = -1;
+                switch(powerups[j][2])  {
+                    case 0: //extra life powerup
+                            player_health++;
+                            break;
+                    case 1: //BFB powerup
+                            for (int k = 0; k < max_number_of_enemies; k++) {
+                                enemies[k][0] = -1;
+                            }
+                            player_countdown = 150;
+                            bfb_used = true;
+                            break;
+                    case 2: // fast movement powerup
+                            player_countdown = 1500;
+                            player_speed += 2;
+                            break;
+                }
             }
-            continue;
-        }
 
-	else if (overlap_enemy) {
-            continue;
-	}
-
-        //display powerup
-        wmove(win, powerup_y, powerup_x);
-        waddstr(win, "*");
-    }
+	        //to make sure powerup y,x are within WINDOW * win. Stops powerup from "sticking" to enemies
+	        else if(powerups[j][0] >= 0 && powerups[j][1] >= 0 && powerups[j][0] <= win_y - 1 && powerups[j][1] <= win_x - 1) {
+	            wmove(win, powerups[j][0], powerups[j][1]);
+	            waddch(win, powerup_appearance[powerups[0][2]]);
+	        }
+	    }
+    } 
 
     //displaying the HUD
 
@@ -173,55 +155,27 @@ void game::update(int tick) {
 
     //update player projectiles
     for(int i = 0; i < max_projectiles; i++) {
-        if(projectiles[i][0] == -1) 
-            continue;
+        if(projectiles[i][0] == -1) continue;
 	    projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0] - 1;
     }
 
-    //every TICK_COUNT * 100 ticks, check if a speed powerup is active. If so, disable its effects
-    if (tick % 1500 == 0)   {
-        if (player_speed > 2)
-            player_speed = 2;
-    }
-
-    //only update enemies every TICK_COUNT ticks, same for power-ups
-    if (tick % 15 == 0) {
+    //only update enemies every 15 ticks
+    if(tick % 15 == 0) {
         for(int i = 0; i < max_number_of_enemies; i++) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
 
-            enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
+	        enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
 
-            //enemy reaches end of map
-            if(enemies[i][0] == win_y - 1) {
-                    player_health--;
+	        //enemy reaches end of map
+	        if(enemies[i][0] == win_y - 1) {
+                player_health--;
 
-                //reset enemy to default
-                for(int reset = 0; reset < 5; reset++) {
-                    enemies[i][reset] = -1;
-                }
-
-            }
-        }
-        for (int i = 0; i < max_number_of_powerups; i++)    {
-            if (powerups[i][0] == -1 || powerups[i][2] != 0) //changed from powerups[i][2] == 1
-                continue;
-
-            powerups[i][0] = (powerups[i][0] == win_y - 1) ? -1 : powerups[i][0] + 1;
-
-            //powerup reaches end of map or is empty
-            if (powerups[i][0] == - 1)    {
-
-                //reset powerup to default
-                for (int reset = 0; reset < 5; reset++) {
-                    powerups[i][reset] = -1;
-                }
-
-		/*
-                for (int j = 0; j < 5; j++) {
-                    powerups[j][2] = 1;
-                }*/
-            }
+		        //reset enemy to default
+		        for(int reset = 0; reset < 5; reset++) {
+		        enemies[i][reset] = -1;
+		        }
+	        }
         }
     }
 
@@ -229,19 +183,34 @@ void game::update(int tick) {
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
             if((enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
-
-            //enemies[i][2]--;
-	    //resets enemies. TEMPORARY CODE. SHOULD FIX ENEMIES NOT DYING
-	    for(int reset = 0; reset < 5; reset++) {
-                enemies[i][reset] = -1;
-	    }
-            projectiles[j][0] = -1;
-            projectiles[j][1] = -1;
+		    enemies[i][2]--;
+		    projectiles[j][0] = -1;
+		    projectiles[j][1] = -1;
 	        }
 	    }
     }
+    //powerups
+    if(tick % 15 == 0)  {
+        for(int i = 0; i < max_number_of_powerups; i++) {
+	        if(powerups[i][0] == -1)
+	            continue;
+            powerups[i][0] = (powerups[i][0] == win_y - 1) ? -1 : powerups[i][0] + 1;
+        }
+    }
 
-    //if 
+    if(player_countdown <= 0 && player_speed > 2)    {
+        player_countdown = 0;
+        player_speed = 2;
+    }
+
+    else if (player_countdown <= 0 && bfb_used == true) {
+        player_countdown = 0;
+        bfb_used = false;
+    }
+
+    if (player_countdown > 0)   {
+        player_countdown--;
+    }
 }
 
 bool game::isOver() {
@@ -252,29 +221,29 @@ bool game::isOver() {
 
 void game::playerMove(char move) {
     switch(move) {
-	//left
+	    //left
         case 'a':
             //Left world boundary is 0+1, as a border may be drawn
-            player_x = (player_x == 1) ? player_x : player_x - 2;
+            player_x = (player_x == 1) ? player_x : player_x - player_speed;
 	    break;
 
-        //right
-        case 'd':
-            //Right world boundary is 80-1-3, accounting for player model dimensions
-            player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + 2;
-            break;
+	    //right
+	    case 'd':
+	        //Right world boundary is 80-1-3, accounting for player model dimensions
+	        player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + player_speed;
+	    break;
 
-        //shoot
-        case 'w':
-            for(int i=0; i<max_projectiles; i++) {
+	    //shoot
+	    case 'w':
+	        for(int i=0; i<max_projectiles; i++) {
                 if(projectiles[i][0] != -1)
                     continue;
-                projectiles[i][0] = player_y - 1;
-                projectiles[i][1] = player_x;
-                break;
-            }
-            break;
-        }
+		        projectiles[i][0] = player_y - 1;
+		        projectiles[i][1] = player_x;
+		        break;
+	        }
+	    break;
+    }
 }
 
 bool game::enemies_empty() {
@@ -301,11 +270,11 @@ void game::generate_enemies(int no_of_enemies) {
     srand(time(NULL));
     for(int i = 0; i < no_of_enemies; i++) {
         enemy E;
-        E.y = 1;
-        E.x = rand() % (win_x - 3);
-        E.health = 0;
-        E.projectile_y = -1;
-        E.projectile_x = -1;
+	    E.y = 1;
+	    E.x = rand() % (win_x-3);
+	    E.health = 0;
+	    E.projectile_y = -1;
+	    E.projectile_x = -1;
         
         all_enemies.push(E);	
     }
@@ -331,27 +300,57 @@ void game::generate_powerups(int no_of_powerups)    {
 
 void game::add_enemies() {
     int i = 0;
-    while(!all_enemies.empty() && i++ < max_number_of_enemies) {
+    while(!all_enemies.empty() && i < max_number_of_enemies) {
         enemies[i][0] = all_enemies.front().y;
-        enemies[i][1] = all_enemies.front().x;
-        enemies[i][2] = all_enemies.front().health;
-        enemies[i][3] = all_enemies.front().projectile_y;
-        enemies[i][4] = all_enemies.front().projectile_x;
+	    enemies[i][1] = all_enemies.front().x;
+	    enemies[i][2] = all_enemies.front().health;
+	    enemies[i][3] = all_enemies.front().projectile_y;
+	    enemies[i][4] = all_enemies.front().projectile_x;
 
-        all_enemies.pop();
+	    all_enemies.pop();
+	    i++;
     }
 }
 
-void game::add_powerups()   {
-    int i = 0; 
-    while ((!power_ups.empty()) && (i++ < max_number_of_powerups))  {
-        powerups[i][0] = power_ups.front().y;
-        powerups[i][1] = power_ups.front().x;
-        //powerups[i][2] = power_ups.front().duration;
-        powerups[i][2] = power_ups.front().used;
-        powerups[i][3] = power_ups.front().effect;
-        powerups[i][4] = power_ups.front().appearance;
-        //powerups[i][5] = power_ups.front().used;
-        power_ups.pop();
+bool game::powerups_empty() {
+    bool empty = true;
+    for(int i = 0; i < max_number_of_powerups; i++) {
+        if(powerups[i][0] != -1)
+	        empty = false;
     }
+    return empty;
+}
+
+void game::generate_powerups(int no_of_powerups) {
+    srand(time(NULL) + no_of_powerups + 10000);
+    for(int i = 0; i < no_of_powerups; i++) {
+        powerup P;
+	    P.y = rand() % (3);
+	    P.x = rand() % (win_x - 3);
+	    P.type = rand() % (3);
+	    all_powerups.push(P);
+    }
+}
+
+void game::add_powerups() {
+    int i = 0;
+    while(!all_powerups.empty() && i < max_number_of_powerups) {
+        powerups[i][0] = all_powerups.front().y;
+	    powerups[i][1] = all_powerups.front().x;
+	    powerups[i][2] = all_powerups.front().type;
+	    i++;
+    }
+    all_powerups.pop();
+}
+
+int game::get_player_countdown()    {
+    return player_countdown;
+}
+
+bool game::get_bfb_used()   {
+    return bfb_used;
+}
+
+void game::reduce_player_countdown()    {
+    player_countdown--;
 }

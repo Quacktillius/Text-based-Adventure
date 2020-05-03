@@ -15,6 +15,8 @@ class game {
     int win_y, win_x, hud_y, hud_x;
 
     int player_x, player_y, player_health, player_speed;
+    int player_countdown;
+    bool bfb_used;
     const int max_projectiles=5;
     //y, x
     int projectiles[5][2];
@@ -28,34 +30,40 @@ class game {
     //y, x, health, projectile_y, projectile_x
     int enemies[5][5];
 
-    struct powerup  {
-        int y, x, effect, used;
-        char appearance;
+    struct powerup {
+        int y, x, type;
     };
+    std::queue<powerup> all_powerups;
 
-    std::queue<powerup> power_ups;
-    const int max_number_of_powerups = 2;
-    //y, x, effect, used, appearance
-    int powerups[5][5];
-    int appearances[4] = {0xd1aa, 0xd1ae, 0xd1b0, 0xd296};
+    const int types_of_powerups = 2;
+    char powerup_appearance[3] = {'#','*', '@'};
 
+    const int max_number_of_powerups = 1;
+    //y, x, type
+    int powerups[1][3];
 public:
     game();
-    game(WINDOW * win, WINDOW * hud, int, int, int, int, int, int[5][5]);
+    game(WINDOW * win, WINDOW * hud,int,int,int,int,int,int[5][5],int[1][3]);
     void display(WINDOW * win, WINDOW * hud);
     void update(int);
     bool isOver();
     void playerMove(char);
     bool enemies_empty();
-    bool powerups_empty();
     //adds enemies to buffer queue
     void generate_enemies(int);
-    //adds power-ups to buffer queue
-    void generate_powerups(int);
     //adds enemies to enemies[][] array
     void add_enemies();
-    //adds power-ups to the screen
+    bool powerups_empty();
+    //adds powerups to queue
+    void generate_powerups(int);
+    //adds powerups to array
     void add_powerups();
+    //check value of player countdown time
+    int get_player_countdown();
+    //check whether bfb powerup is used
+    bool get_bfb_used();
+    //reduce countdown time
+    void reduce_player_countdown();
 };
 
 #endif
