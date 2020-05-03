@@ -31,13 +31,13 @@ int main_menu(WINDOW * mm, int menu_y, int menu_x) {
 
         wrefresh(mm);
 	sleep(1);
-	input = getch();
+	input = wgetch(mm);
       
         if (input < '1' || input > '3') {
             sleep(1);
 	    werase(mm);
-	    wmove(mm, menu_y / 2, menu_x / 2 - 13);
-	    waddstr(mm, "---PLEASE WAIT FOR MENU---");
+	    wmove(mm, menu_y / 2, menu_x / 2 - 12);
+	    waddstr(mm, "---ERROR: WRONG INPUT---");
 	    wrefresh(mm);
             sleep(2);
             werase(mm);
