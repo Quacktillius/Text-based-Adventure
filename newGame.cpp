@@ -280,24 +280,6 @@ void game::generate_enemies(int no_of_enemies) {
     }
 }
 
-void game::generate_powerups(int no_of_powerups)    {
-    //if the seed for srand is the exact same in both generate_enemies and generate_powerups (as this gets called immediately after that), then the y & x positions
-    //will be the same. Which might have been causeing the sticking error.
-    srand(time(NULL) + 1000);
-    for (int i = 0; i < no_of_powerups; i++) {
-        powerup P;
-	// to see if the powerup still sticks to enemies
-	// they do
-        P.y = 3;
-        P.x = rand() % (win_x - 3);
-        P.used = 0;
-        //P.duration = rand() % 20;
-        P.effect = rand() % 4;
-        P.appearance = (char) appearances[P.effect];
-        power_ups.push(P);
-    }
-}
-
 void game::add_enemies() {
     int i = 0;
     while(!all_enemies.empty() && i < max_number_of_enemies) {
@@ -310,15 +292,6 @@ void game::add_enemies() {
 	    all_enemies.pop();
 	    i++;
     }
-}
-
-bool game::powerups_empty() {
-    bool empty = true;
-    for(int i = 0; i < max_number_of_powerups; i++) {
-        if(powerups[i][0] != -1)
-	        empty = false;
-    }
-    return empty;
 }
 
 void game::generate_powerups(int no_of_powerups) {
