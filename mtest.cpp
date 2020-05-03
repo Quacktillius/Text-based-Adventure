@@ -3,7 +3,6 @@
 int main() {
 	initscr();
 	cbreak();
-	noecho();
 
 	int y, x;
 	getmaxyx(stdscr, y, x);
