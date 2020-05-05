@@ -35,9 +35,25 @@ std::string SaveFile::getSaveName() {
 }
 
 void SaveFile::displaySave()  {
-    std::cout << std::endl;
-    std::cout << "Save Name : " << saveName << std::endl;
-    std::cout << "Save Level : " << Game.getLevel() << std::endl;
+    
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety();
+    int menu_x = obj.getx();
+
+    
+    std::string temp1 = "Save Name : " + std::to_string(saveName);
+    int len_temp1 = temp1.length();
+    wmove(mm, menu_y / 2 - 2, menu_x / 2 - len_temp1 / 2);
+    waddstr(mm, temp1.c_str());
+
+    temp1 = "Save Level : " + std::to_string(Game.getLevel());
+    len_temp1 = temp1.length();
+    wmove(mm, menu_y / 2 - 0, menu_x / 2 - len_temp1 / 2);
+    waddstr(mm, temp1.c_str());
+
+    wrefresh(mm);
+    sleep(1);
 }
 
 void SaveFile::saveProgress(game save_game)   {
@@ -78,11 +94,21 @@ SaveFile * LoadGame(std::string save_name)   {
 }
 
 SaveFile * GetSave()   {
-    system("clear");
+    
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety();
+    int menu_x = obj.getx();
+
+    werase(mm);
+    
     std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     ifile.seekg(0, std::ios::beg);
     if (ifile.fail())   {
-        std::cout << "Error loading game!" << std::endl;
+        wmove(mm, menu_y / 2 - 3, menu_x / 2 - 10);
+	waddstr(mm, "Eroor loading game!");
+        wrefresh(mm);
+	sleep(1);
         ifile.close();
         return NULL;
     }
@@ -90,14 +116,21 @@ SaveFile * GetSave()   {
     char select;
     while (ifile.read((char *) &load_save, sizeof(load_save)))   {
         load_save.displaySave();
-        std::cout << "Select this save?" << std::endl;
-        std::cin >> select;
+
+	wmove(mm, menu_y / 2 + 2, menu_x / 2 - 10);
+	waddstr(mm, "Select this save? ");
+        wrefresh(mm);
+	select = wgetch(mm);
+        
         if (select == 'y' || select == 'Y') {
             ifile.close();
             return LoadGame(load_save.getSaveName());
         }
     }
-    std::cout << "Starting new game by default" << std::endl;
+    wmove(mm, menu_y / 2, menu_x / 2 - 14);
+    waddstr(mm, "Starting new game by default");
+    wrefresh(mm);
+    sleep(1);
     ifile.close();
     return NULL;
 }
