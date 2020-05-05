@@ -7,10 +7,14 @@ class store_win {
     static WINDOW * win;
     static int win_y, win_x;
 public:
-    store_win(WINDOW *, int, int);
+    store_win();
+    void setwindow(WINDOW *);
+    void sety(int y);
+    void setx(int x);
     WINDOW * getwindow();
     int gety();
     int getx();
 };
+
 
 #endif

@@ -10,6 +10,11 @@ int main() {
 	getmaxyx(stdscr, win_y, win_x);
 	WINDOW * mm = newwin(win_y, win_x, 0, 0);
 
+	store_win obj;
+	obj.setwindow(mm);
+	obj.sety(win_y);
+	obj.setx(win_x);
+
 	//SaveFile
 	SaveFile * save = main_menu(mm, win_y, win_x);
 	if (save == NULL)	{

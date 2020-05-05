@@ -1,10 +1,13 @@
 #include "saveGame.h"
 
-SaveFile::SaveFile(WINDOW * mm, int win_y1, int win_x1)    {
+SaveFile::SaveFile()    {
 
-    wmove(mm, win_y1 / 2 + 8, win_x1 / 2 - 9);
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety(), menu_x = obj.getx();
+    wmove(mm, menu_y / 2 + 8, menu_x / 2 - 9);
     waddstr(mm, "Enter a save name:");
-    wmove(mm, win_y1 / 2 + 9, win_x1 / 2 - 9);
+    wmove(mm, menu_y / 2 + 9, menu_x / 2 - 9);
     
     nocbreak();
     echo();

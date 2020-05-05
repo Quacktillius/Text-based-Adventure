@@ -2,6 +2,7 @@
 #define _SAVEGAME_H
 
 #include "newGame.h"
+#include "windowDetails.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -17,7 +18,7 @@ public:
     void saveProgress(game save_game);
     game pushGame();
     void setGame(WINDOW * win, WINDOW * hud,int,int,int,int,int,int[5][5],int[1][3]);
-    SaveFile(WINDOW * mm, int, int);
+    SaveFile();
     SaveFile(std::string);
 };
 
