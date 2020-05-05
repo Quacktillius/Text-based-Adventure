@@ -8,6 +8,9 @@ class store_win {
     static int win_y, win_x;
 public:
     store_win(WINDOW *, int, int);
+    WINDOW * getwindow();
+    int gety();
+    int getx();
 };
 
 #endif
