@@ -71,11 +71,23 @@ void SaveFile::setGame(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int 
 }
 
 SaveFile * LoadGame(std::string save_name)   {
+   
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety();
+    int menu_x = obj.getx();
+
     std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     ifile.seekg(0, std::ios::beg);
     if (ifile.fail())   {
         ifile.close();
-        std::cout << "Error loading game!" << std::endl;
+
+        werase(mm);
+	wmove(mm, menu_y / 2, menu_x / 2 - 9);
+	waddstr(mm, "Error loading game!");
+        wrefresh(mm);
+	sleep(1);
+
         return NULL;
     }
     //search the save file collection for the particular save we want
@@ -88,7 +100,12 @@ SaveFile * LoadGame(std::string save_name)   {
         }
     }
     //if no match found, return NULL 
-    std::cout << "Save game not found" << std::endl;
+    werase(mm);
+    wmove(mm, menu_y / 2, menu_x / 2 - 8);
+    waddstr(mm, "Save game not found");
+    wrefresh(mm);
+    sleep(1);
+
     ifile.close();
     return NULL;
 }
@@ -106,7 +123,7 @@ SaveFile * GetSave()   {
     ifile.seekg(0, std::ios::beg);
     if (ifile.fail())   {
         wmove(mm, menu_y / 2 - 3, menu_x / 2 - 10);
-	waddstr(mm, "Eroor loading game!");
+	waddstr(mm, "Error loading game!");
         wrefresh(mm);
 	sleep(1);
         ifile.close();
