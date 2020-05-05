@@ -42,7 +42,7 @@ void SaveFile::displaySave()  {
     int menu_x = obj.getx();
 
     
-    std::string temp1 = "Save Name : " + std::to_string(saveName);
+    std::string temp1 = "Save Name : " + saveName;
     int len_temp1 = temp1.length();
     wmove(mm, menu_y / 2 - 2, menu_x / 2 - len_temp1 / 2);
     waddstr(mm, temp1.c_str());
