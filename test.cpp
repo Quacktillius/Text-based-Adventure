@@ -5,17 +5,22 @@ int main() {
 	initscr();
 	cbreak();
 	
-
+	//Main Menu
 	int win_y, win_x, hud_y=5, hud_x;
 	getmaxyx(stdscr, win_y, win_x);
 	WINDOW * mm = newwin(win_y, win_x, 0, 0);
+
+	//SaveFile
 	SaveFile * save = main_menu(mm, win_y, win_x);
 	if (save == NULL)	{
-		system("clear");
+		delwin(mm);
+		endwin();
 		exit(0);
 	}
+
 	noecho();
 	nodelay(stdscr, TRUE);
+
 	win_y -= 6;
 	hud_x = win_x;
 	WINDOW * win = newwin(win_y, win_x, 0, 0);

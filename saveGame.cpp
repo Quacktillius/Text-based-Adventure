@@ -1,9 +1,22 @@
 #include "saveGame.h"
 
-SaveFile::SaveFile()    {
-    std::cout << std::endl;
-    std::cout << "Enter a save name: ";
-    std::cin >> saveName;
+SaveFile::SaveFile(WINDOW * mm, int win_y1, int win_x1)    {
+
+    wmove(mm, win_y1 / 2 + 8, win_x1 / 2 - 9);
+    waddstr(mm, "Enter a save name:");
+    wmove(mm, win_y1 / 2 + 9, win_x1 / 2 - 9);
+    
+    nocbreak();
+    echo();
+
+    char inp = wgetch(mm);
+    while (inp != '\n') {
+        saveName.push_back(inp);
+	inp = wgetch(mm);
+    }
+
+    cbreak();
+
     int win_x, win_y;
     getmaxyx(stdscr, win_y, win_x);
     win_y -= 6;

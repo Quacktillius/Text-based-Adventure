@@ -17,7 +17,7 @@ public:
     void saveProgress(game save_game);
     game pushGame();
     void setGame(WINDOW * win, WINDOW * hud,int,int,int,int,int,int[5][5],int[1][3]);
-    SaveFile();
+    SaveFile(WINDOW * mm, int, int);
     SaveFile(std::string);
 };
 
