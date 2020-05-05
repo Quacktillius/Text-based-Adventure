@@ -1,9 +1,25 @@
 #include "saveGame.h"
 
 SaveFile::SaveFile()    {
-    std::cout << std::endl;
-    std::cout << "Enter a save name: ";
-    std::cin >> saveName;
+
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety(), menu_x = obj.getx();
+    wmove(mm, menu_y / 2 + 8, menu_x / 2 - 9);
+    waddstr(mm, "Enter a save name:");
+    wmove(mm, menu_y / 2 + 9, menu_x / 2 - 9);
+    
+    nocbreak();
+    echo();
+
+    char inp = wgetch(mm);
+    while (inp != '\n') {
+        saveName.push_back(inp);
+	inp = wgetch(mm);
+    }
+
+    cbreak();
+
     int win_x, win_y;
     getmaxyx(stdscr, win_y, win_x);
     win_y -= 6;
@@ -19,9 +35,25 @@ std::string SaveFile::getSaveName() {
 }
 
 void SaveFile::displaySave()  {
-    std::cout << std::endl;
-    std::cout << "Save Name : " << saveName << std::endl;
-    std::cout << "Save Level : " << Game.getLevel() << std::endl;
+    
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety();
+    int menu_x = obj.getx();
+
+    
+    std::string temp1 = "Save Name : " + std::to_string(saveName);
+    int len_temp1 = temp1.length();
+    wmove(mm, menu_y / 2 - 2, menu_x / 2 - len_temp1 / 2);
+    waddstr(mm, temp1.c_str());
+
+    temp1 = "Save Level : " + std::to_string(Game.getLevel());
+    len_temp1 = temp1.length();
+    wmove(mm, menu_y / 2 - 0, menu_x / 2 - len_temp1 / 2);
+    waddstr(mm, temp1.c_str());
+
+    wrefresh(mm);
+    sleep(1);
 }
 
 void SaveFile::saveProgress(game save_game)   {
@@ -39,11 +71,23 @@ void SaveFile::setGame(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int 
 }
 
 SaveFile * LoadGame(std::string save_name)   {
+   
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety();
+    int menu_x = obj.getx();
+
     std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     ifile.seekg(0, std::ios::beg);
     if (ifile.fail())   {
         ifile.close();
-        std::cout << "Error loading game!" << std::endl;
+
+        werase(mm);
+	wmove(mm, menu_y / 2, menu_x / 2 - 9);
+	waddstr(mm, "Error loading game!");
+        wrefresh(mm);
+	sleep(1);
+
         return NULL;
     }
     //search the save file collection for the particular save we want
@@ -56,17 +100,32 @@ SaveFile * LoadGame(std::string save_name)   {
         }
     }
     //if no match found, return NULL 
-    std::cout << "Save game not found" << std::endl;
+    werase(mm);
+    wmove(mm, menu_y / 2, menu_x / 2 - 8);
+    waddstr(mm, "Save game not found");
+    wrefresh(mm);
+    sleep(1);
+
     ifile.close();
     return NULL;
 }
 
 SaveFile * GetSave()   {
-    system("clear");
+    
+    store_win obj;
+    WINDOW * mm = obj.getwindow();
+    int menu_y = obj.gety();
+    int menu_x = obj.getx();
+
+    werase(mm);
+    
     std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     ifile.seekg(0, std::ios::beg);
     if (ifile.fail())   {
-        std::cout << "Error loading game!" << std::endl;
+        wmove(mm, menu_y / 2 - 3, menu_x / 2 - 10);
+	waddstr(mm, "Error loading game!");
+        wrefresh(mm);
+	sleep(1);
         ifile.close();
         return NULL;
     }
@@ -74,14 +133,21 @@ SaveFile * GetSave()   {
     char select;
     while (ifile.read((char *) &load_save, sizeof(load_save)))   {
         load_save.displaySave();
-        std::cout << "Select this save?" << std::endl;
-        std::cin >> select;
+
+	wmove(mm, menu_y / 2 + 2, menu_x / 2 - 10);
+	waddstr(mm, "Select this save? ");
+        wrefresh(mm);
+	select = wgetch(mm);
+        
         if (select == 'y' || select == 'Y') {
             ifile.close();
             return LoadGame(load_save.getSaveName());
         }
     }
-    std::cout << "Starting new game by default" << std::endl;
+    wmove(mm, menu_y / 2, menu_x / 2 - 14);
+    waddstr(mm, "Starting new game by default");
+    wrefresh(mm);
+    sleep(1);
     ifile.close();
     return NULL;
 }

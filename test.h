@@ -9,5 +9,6 @@
 //#include "menu.h"
 #include"saveGame.h"
 #include"mainMenu.h"
+#include"windowDetails.h"
 
 #endif

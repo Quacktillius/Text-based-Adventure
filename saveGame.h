@@ -2,6 +2,7 @@
 #define _SAVEGAME_H
 
 #include "newGame.h"
+#include "windowDetails.h"
 #include <iostream>
 #include <fstream>
 #include <string>
