@@ -90,6 +90,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
             if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))  {
+                //player_score++;
                 overlap = true;
             }
 	    }
@@ -102,7 +103,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //display enemy. only 1 kind so far
 	    wmove(win, enemy_y, enemy_x);
-	    waddstr(win, "X-X");
+	    waddstr(win, "O-O");
 
 	    //display powerup
 	    for(int j = 0; j < max_number_of_powerups; j++) {
@@ -329,7 +330,7 @@ char game::playerMove(char move) {
                 if(projectiles[i][0] != -1)
                     continue;
 		        projectiles[i][0] = player_y - 1;
-		        projectiles[i][1] = player_x;
+		        projectiles[i][1] = player_x + 1;
 		        break;
 	        }
 	    break;
@@ -376,6 +377,28 @@ void game::add_enemies() {
 
 	    all_enemies.pop();
 	    i++;
+    }
+
+    // use a set to ensure unique enemy coordinates
+    std::set<int> enemy_coordinates;
+
+    for (int i = 0; i < max_number_of_enemies; i++)    {
+        if (enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0)    {
+            //not in set
+            enemy_coordinates.insert(enemies[i][1]);
+            enemy_coordinates.insert(enemies[i][1] + 1);
+            enemy_coordinates.insert(enemies[i][1] + 2);
+            continue;
+        }
+        else    {
+            // duplicated enemy
+            enemies[i][0] = -1;
+            enemies[i][1] = -1;
+            enemies[i][2] = -1;
+            enemies[i][3] = -1;
+            enemies[i][4] = -1;
+            i--;
+        }
     }
 }
 

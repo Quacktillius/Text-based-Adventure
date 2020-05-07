@@ -9,6 +9,8 @@
 #include <time.h>
 #include <vector>
 #include <iostream>
+#include <set>
+#include <iterator>
 
 class game {
     int level;
