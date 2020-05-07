@@ -292,7 +292,7 @@ char game::playerMove(char move) {
 	    //left
         case 'a':
             //Left world boundary is 0+1, as a border may be drawn
-            player_x = (player_x == 1) ? player_x : player_x - player_speed;
+            player_x = (player_x == 0) ? player_x : player_x - player_speed;
 	    break;
 
 	    //right
