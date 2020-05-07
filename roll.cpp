@@ -8,12 +8,12 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
     waddch(up, '_');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-        wmove(low, low_y / 2 - 0, low_x / 2 + 10);
+        wmove(low, low_y / 2 - 1, low_x / 2 + 10);
         waddch(low, '_');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
     wmove(up, up_y / 2 + 1, up_x / 2 - 12);
-    waddch(up '(');
+    waddch(up, '(');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
         wmove(low, low_y / 2 - 1, low_x / 2 + 11);
@@ -25,12 +25,12 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
     waddch(up, '_');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
         
-        wmove(low, low_y / 2 - 1, low_x / 2 + 10 - i);
+        wmove(low, low_y / 2 - 2, low_x / 2 + 10 - i);
         waddch(low, '_');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     }
     
-    wmove(up, up_y / 2 + 1, up_x / 2 - 2);
+    wmove(up, up_y / 2 + 1, up_x / 2 - 3);
     waddch(up, '/');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
@@ -38,15 +38,15 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
         waddch(low, '/');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 + 1, up_x / 2 - 1);
-    waddch(up, '\');
+    wmove(up, up_y / 2 + 1, up_x / 2 - 2);
+    waddch(up, '\\');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
            
         wmove(low, low_y / 2 - 1, low_x / 2 + 1);
-        waddch(low, '\');
+        waddch(low, '\\');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 + 1, up_x / 2 - 0);
+    wmove(up, up_y / 2 + 1, up_x / 2 - 1);
     waddch(up, '/');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
                
@@ -54,7 +54,7 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
         waddch(low, '/');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 - 0, up_x / 2 + 1);
+    wmove(up, up_y / 2 - 0, up_x / 2 - 0);
     waddch(up, '/');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
          
@@ -62,15 +62,15 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
         waddch(low, '/');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 - 1, up_x / 2 + 1);
-    waddch(up, '\');
+    wmove(up, up_y / 2 - 1, up_x / 2 - 0);
+    waddch(up, '\\');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
          
         wmove(low, low_y / 2 + 1, low_x / 2 - 1);
-        waddch(low, '\');
+        waddch(low, '\\');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 - 1, up_x / 2 - 0);
+    wmove(up, up_y / 2 - 1, up_x / 2 - 1);
     waddch(up, '/');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
                
@@ -78,23 +78,23 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
         waddch(low, '/');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 - 0, up_x / 2 - 0);
-    waddch(up, '\');
+    wmove(up, up_y / 2 - 0, up_x / 2 - 1);
+    waddch(up, '\\');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
            
         wmove(low, low_y / 2 - 0, low_x / 2 - 0);
-        waddch(low, '\');
+        waddch(low, '\\');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 + 1, up_x / 2 + 1);
-    waddch(up, '\');
+    wmove(up, up_y / 2 + 1, up_x / 2 - 0);
+    waddch(up, '\\');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
          
         wmove(low, low_y / 2 - 1, low_x / 2 - 1);
-        waddch(low, '\');
+        waddch(low, '\\');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 + 1, up_x / 2 + 2);
+    wmove(up, up_y / 2 + 1, up_x / 2 + 1);
     waddch(up, '/');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
                
@@ -102,36 +102,36 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
         waddch(low, '/');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 + 1, up_x / 2 + 3);
-    waddch(up, '\');
+    wmove(up, up_y / 2 + 1, up_x / 2 + 2);
+    waddch(up, '\\');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
            
         wmove(low, low_y / 2 - 1, low_x / 2 - 3);
-        waddch(low, '\');
+        waddch(low, '\\');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
     for(int i = 0; i < 8; i++) {
-        wmove(up, up_y / 2 + 1, up_x / 2 + 4 + i);
+        wmove(up, up_y / 2 + 1, up_x / 2 + 3 + i);
         waddch(up, '_');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
         
-            wmove(low, low_y / 2 - 1, low_x / 2 - 3 - i);
+            wmove(low, low_y / 2 - 2, low_x / 2 - 4 - i);
             waddch(low, '_');
             std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     }
-    wmove(up, up_y / 2 + 1, up_x / 2 + 11);
+    wmove(up, up_y / 2 + 1, up_x / 2 + 10);
     waddch(up, ')');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
                
-        wmove(low, low_y / 2 - 1, low_x / 2 - 11);
+        wmove(low, low_y / 2 - 1, low_x / 2 - 12);
         waddch(low, '(');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
     
-    wmove(up, up_y / 2 - 0, up_x / 2 + 10);
+    wmove(up, up_y / 2 - 0, up_x / 2 + 9);
     waddch(up, '_');
     std::this_thread::sleep_for(std::chrono::milliseconds(pause));
           
-        wmove(low, low_y / 2 - 0, low_x / 2 - 10);
+        wmove(low, low_y / 2 - 1, low_x / 2 - 11);
         waddch(low, '_');
         std::this_thread::sleep_for(std::chrono::milliseconds(pause));
 }
