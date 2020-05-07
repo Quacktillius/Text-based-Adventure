@@ -89,7 +89,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
-            if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))  {
+            if(enemy_y == projectiles[i][0] && (enemy_x - 1 == projectiles[i][1] || enemy_x - 2 == projectiles[i][1] || enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))  {
                 //player_score++;
                 overlap = true;
             }
@@ -97,7 +97,11 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //if overlapping or hit - set enemy health to -1, and skip display
         if(overlap) {
+            enemies[i][0] = -1;
+            enemies[i][1] = -1;
             enemies[i][2] = -1;
+            enemies[i][3] = -1;
+            enemies[i][4] = -1;
 	        continue;
 	    }
 
@@ -181,10 +185,10 @@ void game::update(int tick) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
 
-	        enemies[i][0] = (enemies[i][0] == win_y) ? enemies[i][0] : enemies[i][0] + 1;
+	        enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
 
 	        //enemy reaches end of map
-	        if(enemies[i][0] == win_y) {
+	        if(enemies[i][0] == win_y - 1) {
                 player_health--;
 
 		        //reset enemy to default
@@ -201,6 +205,12 @@ void game::update(int tick) {
             if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
             player_score++;
             enemies[i][2]--;
+            //check for enemy death
+            if (enemies[i][2] == 0) {
+                for(int reset = 0; reset < 5; reset++) {
+		        enemies[i][reset] = -1;
+		        }
+            }
 		    projectiles[j][0] = -10;
 		    projectiles[j][1] = -10;
 	        }
@@ -346,7 +356,7 @@ char game::playerMove(char move) {
 bool game::enemies_empty() {
     bool empty = true;
     for(int i = 0; i < max_number_of_enemies; i++) {
-        if(!(enemies[i][0] == -1 || enemies[i][2] == -1)) {
+        if(!(enemies[i][0] == -1 && enemies[i][2] == -1 && enemies[i][1] == -1 && enemies[i][3] == -1 && enemies[i][4] == -1)) {
             empty = false;
 	    }
     }
