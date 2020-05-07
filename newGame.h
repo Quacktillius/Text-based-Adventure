@@ -18,6 +18,7 @@ class game {
 
     int player_x, player_y, player_health, player_speed;
     int player_countdown;
+    int player_score;
     bool bfb_used;
     const int max_projectiles=5;
     //y, x
@@ -45,7 +46,7 @@ class game {
     int powerups[1][3];
 public:
     game();
-    game(WINDOW * win, WINDOW * hud,int,int,int,int,int,int[5][5],int[1][3]);
+    game(WINDOW * win, WINDOW * hud,int,int,int,int,int,int,int[5][5],int[1][3]);
     void display(WINDOW * win, WINDOW * hud);
     void update(int);
     bool isOver();
@@ -56,7 +57,9 @@ public:
     int getPlayerX();
     int getPlayerY();
     int getPlayerSpeed();
+    int getPlayerScore();
     int getPlayerHealth();
+    void levelup();
     void setPos(int, int);
     game& operator=(game &g);
     char playerMove(char);

@@ -17,7 +17,9 @@ public:
     void displaySave();
     void saveProgress(game save_game);
     game pushGame();
-    void setGame(WINDOW * win, WINDOW * hud,int,int,int,int,int,int[5][5],int[1][3]);
+    void setGame(WINDOW * win, WINDOW * hud,int,int,int,int,int,int,int[5][5],int[1][3]);
+    void checksave();
+    std::string getName();
     SaveFile();
     SaveFile(std::string);
 };
@@ -25,5 +27,6 @@ public:
 SaveFile * LoadGame(std::string save_name);
 SaveFile * GetSave();
 void writeSave(SaveFile save);
+void removeSave(SaveFile * save);
 
 #endif

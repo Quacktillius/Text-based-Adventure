@@ -6,7 +6,7 @@ SaveFile::SaveFile()    {
     WINDOW * mm = obj.getwindow();
     int menu_y = obj.gety(), menu_x = obj.getx();
     wmove(mm, menu_y / 2 + 8, menu_x / 2 - 9);
-    waddstr(mm, "Enter a save name:");
+    waddstr(mm, "Enter a save name: ");
     wmove(mm, menu_y / 2 + 9, menu_x / 2 - 9);
     
     nocbreak();
@@ -65,8 +65,8 @@ game SaveFile::pushGame()   {
     return Game;
 }
 
-void SaveFile::setGame(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int ph, int pe[5][5], int pu[1][3])    {
-    game temp(win, hud, lvl, px, py, ps, ph, pe, pu);
+void SaveFile::setGame(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int pscore, int ph, int pe[5][5], int pu[1][3])    {
+    game temp(win, hud, lvl, px, py, ps, pscore, ph, pe, pu);
     Game = temp;
 }
 
@@ -160,4 +160,40 @@ void writeSave(SaveFile save)   {
     }
     ofile.write((char *) &save, sizeof(save));
     ofile.close();
+}
+void SaveFile::checksave() {
+    std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
+    if (ifile.fail())   {
+        return;
+    }
+    SaveFile * temp = new SaveFile("");
+    while(ifile.read((char *) temp, sizeof(*temp))) {
+        if (temp -> getName() == saveName)  {
+            removeSave(temp);            
+            break;
+        }
+    }
+    ifile.close();
+    delete temp;
+}
+
+void removeSave(SaveFile * save)  {
+    std::ofstream ofile("Savegame1.dat", std::ios::binary | std::ios::out | std::ios::beg);
+    std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in | std::ios::beg);
+    SaveFile * temp = new SaveFile("");
+    while (ifile.read((char * ) temp, sizeof(*temp)))   {
+        if (temp -> getName() == save -> getName())  {
+            continue;
+        }
+        ofile.write((char * )temp, sizeof(*temp));
+    }
+    remove("Savegame.dat");
+    rename("Savegame1.dat", "Savegame.dat");
+    ifile.close();
+    ofile.close();
+    delete temp;
+}
+
+std::string SaveFile::getName() {
+    return saveName;
 }

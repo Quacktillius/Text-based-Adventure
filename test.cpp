@@ -42,12 +42,16 @@ int main() {
 	
 	int pu[1][3] = {{3,7,1}};
 
-	game game1(win, hud, (save -> pushGame()).getLevel(), (save -> pushGame()).getPlayerX(), (save -> pushGame()).getPlayerY(), (save -> pushGame().getPlayerSpeed()), (save -> pushGame().getPlayerHealth()), pe, pu);
+	game game1(win, hud, (save -> pushGame()).getLevel(), (save -> pushGame()).getPlayerX(), (save -> pushGame()).getPlayerY(), (save -> pushGame().getPlayerSpeed()), (save -> pushGame().getPlayerScore()), (save -> pushGame().getPlayerHealth()), pe, pu);
 
-	game1.generate_enemies(20);
-	game1.generate_powerups(4);
+	game1.generate_enemies(10000);
+	game1.generate_powerups(700);
 
 	while(count++ <= 10000){
+
+		if (count % 50 == 0)	{
+			game1.levelup();
+		}
 
 		if((c=getch()) != ERR) 
             c = game1.playerMove(c);
@@ -68,11 +72,15 @@ int main() {
 		}
 
 
-		if(game1.enemies_empty() && game1.get_bfb_used() == false && game1.get_player_countdown() <= 0)
+		if(game1.enemies_empty() && game1.get_bfb_used() == false && game1.get_player_countdown() <= 0)	{
 			game1.add_enemies();
+			game1.generate_enemies(5);
+		}
 
-		if(game1.powerups_empty())
+		if(game1.powerups_empty())	{
 			game1.add_powerups();
+			game1.generate_powerups(2);
+		}
 
 		game1.display(win, hud);
 		wrefresh(win);
@@ -84,7 +92,10 @@ int main() {
 		werase(hud);
 
 		game1.update(count);
-		if(game1.isOver()) break;
+		if(game1.isOver())	{
+			save -> checksave();
+			break;
+		}
 		
 
 	}

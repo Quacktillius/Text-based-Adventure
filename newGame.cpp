@@ -13,6 +13,7 @@ game::game() {
     player_y = (win_y / 6) * 5;
     player_health=3;
     player_speed=2;
+    player_score=0;
     player_countdown=0;
     level = 0;
     bfb_used = false;
@@ -26,7 +27,7 @@ game::game() {
     }
 }
 
-game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int ph, int pe[5][5], int pu[1][3]) {
+game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int pscore, int ph, int pe[5][5], int pu[1][3]) {
     getmaxyx(win, win_y, win_x);
     getmaxyx(hud, hud_y, hud_x);
     level = lvl;
@@ -34,6 +35,7 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int ph, 
     player_y = py;
     player_health = ph;
     player_speed = ps;
+    player_score = pscore;
     player_countdown = 0;
     bfb_used = false;
     for(int i = 0; i < max_projectiles; i++) {
@@ -87,8 +89,9 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
-            if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))
+            if(enemy_y == projectiles[i][0] && (enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))  {
                 overlap = true;
+            }
 	    }
 
 	    //if overlapping or hit - set enemy health to -1, and skip display
@@ -118,6 +121,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
                             break;
                     case 1: //BFB powerup
                             for (int k = 0; k < max_number_of_enemies; k++) {
+                                player_score++;
                                 enemies[k][0] = -1;
                             }
                             player_countdown = 150;
@@ -155,6 +159,11 @@ void game::display(WINDOW * win, WINDOW * hud) {
     for(int i = 0; i < player_health; i++) {
         waddstr(hud,"O ");
     }
+
+    //display score
+    wmove(hud, hud_y/2 + 2, hud_x/2 - 7);
+    std::string scr = "Score: " + std::to_string(player_score);
+    waddstr(hud, scr.c_str());
 }
 
 void game::update(int tick) {
@@ -189,7 +198,8 @@ void game::update(int tick) {
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
             if((enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
-		    enemies[i][2]--;
+		    player_score++;
+            enemies[i][2]--;
 		    projectiles[j][0] = -1;
 		    projectiles[j][1] = -1;
 	        }
@@ -264,8 +274,16 @@ int game::getPlayerSpeed()  {
     return player_speed;
 }
 
+int game::getPlayerScore()  {
+    return player_score;
+}
+
 int game::getPlayerHealth() {
     return player_health;
+}
+
+void game::levelup()    {
+    level++;
 }
 
 void game::setPos(int x, int y)   {
