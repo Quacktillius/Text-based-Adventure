@@ -3,5 +3,5 @@
 #include <thread>
 #include <chrono>
 
-void rollTheIntro(WINDOW *, WINDOW *, WINDOW *);
-void rollTheOutro(WINDOW *, WINDOW *, WINDOW *);
+void rollTheIntro(WINDOW *, int, int, WINDOW *, int, int, WINDOW *, int, int);
+//void rollTheOutro(WINDOW *, WINDOW *, WINDOW *);
