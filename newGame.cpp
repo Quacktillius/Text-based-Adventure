@@ -293,12 +293,14 @@ char game::playerMove(char move) {
         case 'a':
             //Left world boundary is 0+1, as a border may be drawn
             player_x = (player_x == 0) ? player_x : player_x - player_speed;
+	    player_x = (player_x < 0) ? 0 : player_x;
 	    break;
 
 	    //right
 	    case 'd':
 	        //Right world boundary is 80-1-3, accounting for player model dimensions
 	        player_x = (player_x == win_x - 1 - 3) ? player_x : player_x + player_speed;
+		player_x = (player_x > win_x - 1 - 3) ? win_x - 1 - 3 : player_x;
 	    break;
 
 	    //shoot
