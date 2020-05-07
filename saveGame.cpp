@@ -70,6 +70,36 @@ void SaveFile::setGame(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int 
     Game = temp;
 }
 
+void SaveFile::saveLeaderboard()    {
+    std::ifstream ifile("Leaderboard.txt", std::ios::in);
+    std::ofstream ofile("Leaderboard1.txt", std::ios::out);
+    int score = 0, prevscore = -1;
+    int i = 0;
+    bool added = false;
+    while (ifile >> score)    {
+        prevscore = score;
+        if (score > Game.getPlayerScore())  {
+            ofile << score << " ";
+            i++;
+            continue;
+        }
+        else if (score < Game.getPlayerScore() && !added) {
+            added = true;
+            ofile << Game.getPlayerScore() << " ";
+            ofile << score << " ";
+            i++;
+        }
+        else if (score < Game.getPlayerScore() && added)    {
+            ofile << score << " ";
+            i++;
+        }
+    }
+    remove("Leaderboard.txt");
+    rename("Leaderboard1.txt", "Leaderboard.txt");
+    ofile.close();
+    ifile.close();
+}
+
 SaveFile * LoadGame(std::string save_name)   {
    
     store_win obj;
@@ -196,4 +226,23 @@ void removeSave(SaveFile * save)  {
 
 std::string SaveFile::getName() {
     return saveName;
+}
+
+void displayLeaderBoard(WINDOW * mm, int menu_y, int menu_x)   {
+    werase(mm);
+    std::ifstream ifile("Leaderboard.txt", std::ios::in);
+    int score = 0;
+    int i = 1;
+    wmove(mm, menu_y / 2 - 8, menu_x / 2 - 7);
+    waddstr(mm, "LEADERBOARD");
+    while (ifile >> score && i <= 10)  {
+        wmove(mm, menu_y / 2 - 8 + i, menu_x / 2 - 7);
+        std::string output = "Rank #" + std::to_string(i) + "    " + std::to_string(score); 
+        waddstr(mm, output.c_str());
+        i++;
+    }
+    wrefresh(mm);
+    wgetch(mm);
+    werase(mm);
+    ifile.close();
 }

@@ -18,8 +18,8 @@ game::game() {
     level = 0;
     bfb_used = false;
     for(int i = 0; i < max_projectiles; i++) {
-        projectiles[i][0] = -1;
-	    projectiles[i][1] = -1;
+        projectiles[i][0] = -10;
+	    projectiles[i][1] = -10;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
         enemies[i][0] = -1;
@@ -39,8 +39,8 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int psco
     player_countdown = 0;
     bfb_used = false;
     for(int i = 0; i < max_projectiles; i++) {
-        projectiles[i][0] = -1;
-	    projectiles[i][1] = -1;
+        projectiles[i][0] = -10;
+	    projectiles[i][1] = -10;
     }
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int stat = 0; stat < 5; stat++)
@@ -64,7 +64,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
     //display player projectiles
     for(int i = 0; i < max_projectiles; i++) {
-        if(projectiles[i][0] == -1)
+        if(projectiles[i][0] == -10)
             continue;
 	    wmove(win, projectiles[i][0], projectiles[i][1]);
 	    waddch(win, '!');
@@ -121,8 +121,8 @@ void game::display(WINDOW * win, WINDOW * hud) {
                             player_health++;
                             break;
                     case 1: //BFB powerup
+                            player_score += 10;
                             for (int k = 0; k < max_number_of_enemies; k++) {
-                                player_score++;
                                 enemies[k][0] = -1;
                             }
                             player_countdown = 150;
@@ -171,8 +171,8 @@ void game::update(int tick) {
 
     //update player projectiles
     for(int i = 0; i < max_projectiles; i++) {
-        if(projectiles[i][0] == -1) continue;
-	    projectiles[i][0] = (projectiles[i][0] == 0) ? -1 : projectiles[i][0] - 1;
+        if(projectiles[i][0] == -10) continue;
+	    projectiles[i][0] = (projectiles[i][0] == 0) ? -10 : projectiles[i][0] - 1;
     }
 
     //only update enemies every 15 ticks
@@ -181,10 +181,10 @@ void game::update(int tick) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
 
-	        enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
+	        enemies[i][0] = (enemies[i][0] == win_y) ? enemies[i][0] : enemies[i][0] + 1;
 
 	        //enemy reaches end of map
-	        if(enemies[i][0] == win_y - 1) {
+	        if(enemies[i][0] == win_y) {
                 player_health--;
 
 		        //reset enemy to default
@@ -198,11 +198,11 @@ void game::update(int tick) {
     //if enemy gets hit by player projectile
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
-            if((enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
-		    player_score++;
+            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
+            player_score++;
             enemies[i][2]--;
-		    projectiles[j][0] = -1;
-		    projectiles[j][1] = -1;
+		    projectiles[j][0] = -10;
+		    projectiles[j][1] = -10;
 	        }
 	    }
     }
@@ -303,6 +303,7 @@ game& game::operator=(game &g)  {
     player_y = g.getPlayer(1);
     player_health = g.getPlayer(2);
     player_speed = g.getPlayer(3);
+    player_score = g.getPlayerScore();
     player_countdown = g.getPlayer(4);
     bfb_used = g.getFlag();
     return *this;
@@ -327,7 +328,7 @@ char game::playerMove(char move) {
 	    //shoot
 	    case 'w':
 	        for(int i=0; i<max_projectiles; i++) {
-                if(projectiles[i][0] != -1)
+                if(projectiles[i][0] != -10)
                     continue;
 		        projectiles[i][0] = player_y - 1;
 		        projectiles[i][1] = player_x + 1;
@@ -356,7 +357,7 @@ void game::generate_enemies(int no_of_enemies) {
     srand(time(NULL));
     for(int i = 0; i < no_of_enemies; i++) {
         enemy E;
-	    E.y = 1;
+	    E.y = rand() % (5);
 	    E.x = rand() % (win_x-3);
 	    E.health = 0;
 	    E.projectile_y = -1;
@@ -415,7 +416,7 @@ void game::generate_powerups(int no_of_powerups) {
     srand(time(NULL) + no_of_powerups + 10000);
     for(int i = 0; i < no_of_powerups; i++) {
         powerup P;
-	    P.y = rand() % (3);
+	    P.y = rand() % (5);
 	    P.x = rand() % (win_x - 3);
 	    P.type = rand() % (3);
 	    all_powerups.push(P);

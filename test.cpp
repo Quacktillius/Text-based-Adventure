@@ -47,9 +47,9 @@ int main() {
 	game1.generate_enemies(10000);
 	game1.generate_powerups(700);
 
-	while(count <= 10000){
+	while(true){
 
-		if (count % 500 == 0)	{
+		if (count % 1000 == 0)	{
 			game1.levelup();
 		}
 
@@ -94,10 +94,11 @@ int main() {
 		game1.update(count);
 		if(game1.isOver())	{
 			save -> checksave();
+			save -> saveLeaderboard();
 			break;
 		}
 
-		count = (count + 1) % 1000000007;
+		count = (count + 1) % 10000;
 	
 
 	}

@@ -25,15 +25,17 @@ SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x) {
         waddstr(mm, "2* LOAD GAME");
 	wmove(mm, menu_y / 2 + 5, menu_x / 2 - 7);
         waddstr(mm, "3* EXIT");
+        wmove(mm, menu_y / 2 + 6, menu_x / 2 - 7);
+        waddstr(mm, "4* LEADERBOARD");
 
-	wmove(mm, menu_y / 2 + 6, menu_x / 2 - 13);
+	wmove(mm, menu_y / 2 + 7, menu_x / 2 - 13);
         waddstr(mm, "PLEASE SELECT AN OPTION: ");
 
         wrefresh(mm);
 	sleep(1);
 	input = wgetch(mm);
       
-        if (input < '1' || input > '3') {
+        if (input < '1' || input > '4') {
             sleep(1);
 	    werase(mm);
 	    wmove(mm, menu_y / 2, menu_x / 2 - 12);
@@ -61,6 +63,9 @@ SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x) {
                 delwin(mm);
                 endwin();
                 exit(0);
+                break;
+        case '4': displayLeaderBoard(mm, menu_y, menu_x);
+                return main_menu(mm, menu_y, menu_x);
                 break;
     }
     return save;
