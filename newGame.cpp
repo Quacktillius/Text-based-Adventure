@@ -78,10 +78,12 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	    bool overlap = false;
 
 	    //check overlapping between player and enemy (enemies[i])
-	    for(int a = player_x; a < player_x + 7; a++)
+	    for(int a = player_x - 2; a < player_x + 2; a++)
             for(int b = player_y; b < player_y + 3; b++)
-                if(enemy_y == b && enemy_x == a) 
+                if(enemy_y == b && enemy_x == a)    {
                     overlap = true;
+                    player_health--;
+                }
 
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
@@ -108,7 +110,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	        }
 
             //if powerup overlaps with player
-            if((powerups[j][0] == player_y) && (powerups[j][1] >= player_x) && (powerups[j][1] <= player_x + 7))    {
+            if((powerups[j][0] >= player_y) && (powerups[j][0] <= player_y + 2) && (powerups[j][1] >= player_x - 2) && (powerups[j][1] <= player_x + 2))    {
                 powerups[j][0] = -1;
                 switch(powerups[j][2])  {
                     case 0: //extra life powerup
