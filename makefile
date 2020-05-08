@@ -7,25 +7,25 @@ ncurses_has_been_set_up.txt:
 	./compile_san.sh
 
 windowDetails.o: windowDetails.cpp windowDetails.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
+	g++ $(flags) $(begnc) -o $@ -c $< 
 
 saveGame.o: saveGame.cpp saveGame.h windowDetails.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
+	g++ $(flags) $(begnc) -o $@ -c $<
 
 mainMenu.o: mainMenu.cpp mainMenu.h saveGame.h windowDetails.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
+	g++ $(flags) $(begnc) -o $@ -c $<
 
 roll.o: roll.cpp roll.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
+	g++ $(flags) $(begnc) -o $@ -c $<
 
 newGame.o: newGame.cpp newGame.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
+	g++ $(flags) $(begnc) -o $@ -c $<
 
 test.o: test.cpp test.h roll.h newGame.h saveGame.h mainMenu.h windowDetails.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
+	g++ $(flags) $(begnc) -o $@ -c $<
 
 Game: windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(nc)
-	g++ $(flags) $(begnc) -o $@ windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(endnc)
+	g++ $(flags) $(begnc) -std=c++11 -o $@ windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(endnc)
 
 run:
 	./Game 2> log.txt

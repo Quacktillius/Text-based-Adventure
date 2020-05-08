@@ -2,7 +2,7 @@
 #include "roll.h"
 
 int main() {
-	// initialise ncurses stuff
+	// initialize ncurses stuff
 	initscr();
 	cbreak();
 	
