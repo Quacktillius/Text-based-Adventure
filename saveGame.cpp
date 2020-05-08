@@ -219,7 +219,7 @@ void displayLeaderBoard(WINDOW * mm, int menu_y, int menu_x)   {
         scoreboard.push_back(score);
         i++;
     }
-    count = i + 1;
+    count = i;
     std::sort(scoreboard.begin(), scoreboard.end(), std::greater<int>());
     i = 0;
     ifile.close();
