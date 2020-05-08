@@ -5,6 +5,53 @@ int main() {
 	initscr();
 	cbreak();
 	
+	//Intro
+	int intro_y, intro_x;
+	getmaxyx(stdscr, intro_y, intro_x);
+	WINDOW * up= newwin(intro_y / 3 - 0, intro_x, 0, 0);
+	WINDOW * mid= newwin(intro_y / 3 - 1, intro_x, y / 3, 0);
+	WINDOW * low= newwin(intro_y / 3 - 1, intro_x, 2 * y / 3, 0);
+	std::string intro_message = "Get ready for a totally mediocre gaming experience.";
+	rollTheIntro(up, intro_y/3, intro_x, mid, intro_y/3 - 1, intro_x, low, intro_y/3 - 1, intro_x, intro_message);
+	wrefresh(up);
+	wrefresh(mid);
+	wrefresh(low);
+	sleep(2);
+	werase(up);
+	werase(mid);
+	werase(low);
+	intro_message = "A game we've all played before,\nBut worse in almost every sense.";
+	rollTheIntro(up, intro_y/3, intro_x, mid, intro_y/3 - 1, intro_x, low, intro_y/3 - 1, intro_x, intro_message);
+	wrefresh(up);
+	wrefresh(mid);
+	wrefresh(low);
+	sleep(2);
+	werase(up);
+	werase(mid);
+	werase(low);
+	intro_message = "\"The best Project undertaken this semester\"\n                      -Random guy we bribed";
+	rollTheIntro(up, intro_y/3, intro_x, mid, intro_y/3 - 1, intro_x, low, intro_y/3 - 1, intro_x, intro_message);
+	wrefresh(up);
+	wrefresh(mid);
+	wrefresh(low);
+	sleep(2);
+	werase(up);
+	werase(mid);
+	werase(low);
+	intro_message = "We are honoured to present...";
+	rollTheIntro(up, intro_y/3, intro_x, mid, intro_y/3 - 1, intro_x, low, intro_y/3 - 1, intro_x, intro_message);
+	wrefresh(up);
+	wrefresh(mid);
+	wrefresh(low);
+	sleep(1);
+	werase(up);
+	werase(mid);
+	werase(low);
+	delwin(up);
+	delwin(mid);
+	delwin(low);
+	
+	
 	//Main Menu
 	int win_y, win_x, hud_y=5, hud_x;
 	getmaxyx(stdscr, win_y, win_x);
