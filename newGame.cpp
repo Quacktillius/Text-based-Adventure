@@ -89,7 +89,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
-            if(enemy_y == projectiles[i][0] && (enemy_x - 1 == projectiles[i][1] || enemy_x - 2 == projectiles[i][1] || enemy_x == projectiles[i][1] || enemy_x + 1 == projectiles[i][1] || enemy_x + 2 == projectiles[i][1]))  {
+            if(enemy_y == projectiles[a][0] && (enemy_x - 1 == projectiles[a][1] || enemy_x - 2 == projectiles[a][1] || enemy_x == projectiles[a][1] || enemy_x + 1 == projectiles[a][1] || enemy_x + 2 == projectiles[a][1]))  {
                 //player_score++;
                 overlap = true;
             }
@@ -185,14 +185,15 @@ void game::update(int tick) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
 
-	        enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
+	        enemies[i][0] = (enemies[i][0] == win_y) ? enemies[i][0] : enemies[i][0] + 1;
             // took a chunk from here
         }
     }
 
+    //placed this outside the 15 tick block to eliminate respawning indestructible "ghost" enemies
     for (int i = 0; i < max_number_of_enemies; i++) {
         //enemy reaches end of map
-	        if(enemies[i][0] == win_y - 1) {
+	        if(enemies[i][0] == win_y) {
                 player_health--;
 
 		        //reset enemy to default
@@ -205,18 +206,18 @@ void game::update(int tick) {
     //if enemy gets hit by player projectile
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
-            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
+            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0]>= projectiles[j][0]) {
             player_score++;
             enemies[i][2]--;
             //check for enemy death
-            if (enemies[i][2] <= 0) {
+		    projectiles[j][0] = -10;
+		    projectiles[j][1] = -10;
+            }
+            if (enemies[i][2] < 0) {
                 for(int reset = 0; reset < 5; reset++) {
 		        enemies[i][reset] = -1;
 		        }
             }
-		    projectiles[j][0] = -10;
-		    projectiles[j][1] = -10;
-	        }
 	    }
     }
     //powerups
@@ -224,7 +225,7 @@ void game::update(int tick) {
         for(int i = 0; i < max_number_of_powerups; i++) {
 	        if(powerups[i][0] == -1)
 	            continue;
-            powerups[i][0] = (powerups[i][0] == win_y - 1) ? -1 : powerups[i][0] + 1;
+            powerups[i][0] = (powerups[i][0] == win_y) ? -1 : powerups[i][0] + 1;
         }
     }
 
@@ -393,11 +394,13 @@ void game::add_enemies() {
 	    i++;
     }
 
+    std::cerr << "Added enemy to array \n";
+
     // use a set to ensure unique enemy coordinates
-    std::set<int> enemy_coordinates;
+    std::set<int> enemy_coordinates{};
 
     for (int i = 0; i < max_number_of_enemies; i++)    {
-        if (enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0)    {
+        if (enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0 && enemy_coordinates.count(enemies[i][1] - 1) == 0)    {
             //not in set
             enemy_coordinates.insert(enemies[i][1]);
             enemy_coordinates.insert(enemies[i][1] + 1);
@@ -406,14 +409,10 @@ void game::add_enemies() {
         }
         else    {
             // duplicated enemy
-            enemies[i][0] = -1;
-            enemies[i][1] = -1;
-            enemies[i][2] = -1;
-            enemies[i][3] = -1;
-            enemies[i][4] = -1;
-            i--;
+            enemies[i][0] += 3;
         }
     }
+    std::cerr << "Verified unique coordinates \n";
 }
 
 bool game::powerups_empty() {
@@ -431,7 +430,7 @@ void game::generate_powerups(int no_of_powerups) {
         powerup P;
 	    P.y = rand() % (5);
 	    P.x = rand() % (win_x - 3);
-	    P.type = rand() % (3);
+	    P.type = rand() % (types_of_powerups);
 	    all_powerups.push(P);
     }
 }

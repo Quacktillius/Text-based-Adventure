@@ -153,9 +153,9 @@ SaveFile * GetSave()   {
     ifile.seekg(0, std::ios::beg);
     if (ifile.fail())   {
         wmove(mm, menu_y / 2 - 3, menu_x / 2 - 10);
-	waddstr(mm, "Error loading game!");
+	    waddstr(mm, "Error loading game!");
         wrefresh(mm);
-	sleep(1);
+	    sleep(1);
         ifile.close();
         return NULL;
     }
@@ -164,10 +164,10 @@ SaveFile * GetSave()   {
     while (ifile.read((char *) &load_save, sizeof(load_save)))   {
         load_save.displaySave();
 
-	wmove(mm, menu_y / 2 + 2, menu_x / 2 - 10);
-	waddstr(mm, "Select this save? ");
+	    wmove(mm, menu_y / 2 + 2, menu_x / 2 - 10);
+	    waddstr(mm, "Select this save? ");
         wrefresh(mm);
-	select = wgetch(mm);
+	    select = wgetch(mm);
         
         if (select == 'y' || select == 'Y') {
             ifile.close();
@@ -186,6 +186,7 @@ void writeSave(SaveFile save)   {
     std::ofstream ofile("Savegame.dat", std::ios::binary | std::ios::app);
     if (ofile.fail())   {
         std::cout << "Error writing save!" << std::endl;
+        ofile.close();
         return;
     }
     ofile.write((char *) &save, sizeof(save));
@@ -194,6 +195,7 @@ void writeSave(SaveFile save)   {
 void SaveFile::checksave() {
     std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     if (ifile.fail())   {
+        ifile.close();
         return;
     }
     SaveFile * temp = new SaveFile("");

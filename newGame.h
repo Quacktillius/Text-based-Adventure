@@ -40,7 +40,7 @@ class game {
     };
     std::queue<powerup> all_powerups;
 
-    const int types_of_powerups = 2;
+    const int types_of_powerups = 3;
     char powerup_appearance[3] = {'#','*', '@'};
 
     const int max_number_of_powerups = 1;

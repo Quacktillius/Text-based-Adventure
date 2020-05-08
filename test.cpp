@@ -44,8 +44,8 @@ int main() {
 
 	game game1(win, hud, (save -> pushGame()).getLevel(), (save -> pushGame()).getPlayerX(), (save -> pushGame()).getPlayerY(), (save -> pushGame().getPlayerSpeed()), (save -> pushGame().getPlayerScore()), (save -> pushGame().getPlayerHealth()), pe, pu);
 
-	game1.generate_enemies(1000);
-	game1.generate_powerups(70);
+	game1.generate_enemies(10000);
+	game1.generate_powerups(700);
 
 	while(true){
 
@@ -53,8 +53,12 @@ int main() {
 			game1.levelup();
 		}
 
+		std::cerr << "Got levelup " << count << "\n";
+
 		if((c=getch()) != ERR) 
             c = game1.playerMove(c);
+
+		std::cerr << "Got input " << count << "\n";
 
 		if (c == 'p')	{
 			//save game and exit
@@ -71,16 +75,24 @@ int main() {
 			exit(0);
 		}
 
+		std::cerr << "Done input " << count << "\n";
 
 		if(game1.enemies_empty() && game1.get_bfb_used() == false && game1.get_player_countdown() <= 0)	{
+			std::cerr << "Checked all conditions " << count << "\n";
 			game1.add_enemies();
-			game1.generate_enemies(5);
+			std::cerr << "Added enemies to buffer " << count << "\n";
+			game1.generate_enemies(100);
+			std::cerr << "Generated new enemies " << count << "\n";
 		}
+
+		std::cerr << "spawned enemies " << count << "\n";
 
 		if(game1.powerups_empty())	{
 			game1.add_powerups();
-			game1.generate_powerups(2);
+			game1.generate_powerups(40);
 		}
+
+		std::cerr << "Done setup " << count << "\n";
 
 		game1.display(win, hud);
 		wrefresh(win);
@@ -91,17 +103,23 @@ int main() {
 		werase(win);
 		werase(hud);
 
+		std::cerr << "Done display " << count << "\n";
+
 		game1.update(count);
+		std::cerr << "Done update " << count << "\n";
 		if(game1.isOver())	{
+			std::cerr << "Game over " << count << "\n";
 			save -> checksave();
-			save -> saveLeaderboard();
+			//save -> saveLeaderboard();
 			break;
 		}
-
-		count = (count + 1) % 10000;
+		std::cerr << "Checked gameover " << count << "\n";
+ 		count = (count + 1) % 10000;
 	
 
 	}
+
+	std::cerr << "Exited game loop " << count << "\n";
 	game1.display(win, hud);
 
 	// wrapping up ncurses output
