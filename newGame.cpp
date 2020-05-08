@@ -89,7 +89,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
-            if(enemy_y == projectiles[a][0] && (enemy_x - 1 == projectiles[a][1] || enemy_x - 2 == projectiles[a][1] || enemy_x == projectiles[a][1] || enemy_x + 1 == projectiles[a][1] || enemy_x + 2 == projectiles[a][1]))  {
+            if(enemy_y >= projectiles[a][0] && (enemy_x - 1 == projectiles[a][1] || enemy_x - 2 == projectiles[a][1] || enemy_x == projectiles[a][1] || enemy_x + 1 == projectiles[a][1] || enemy_x + 2 == projectiles[a][1]))  {
                 //player_score++;
                 overlap = true;
             }
@@ -137,7 +137,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
                             bfb_used = true;
                             break;
                     case 2: // fast movement powerup
-                            player_countdown = 500;
+                            player_countdown = 300;
                             player_speed += 2;
                             break;
                 }
@@ -202,7 +202,7 @@ void game::update(int tick) {
 
 		        //reset enemy to default
 		        for(int reset = 0; reset < 5; reset++) {
-		        enemies[i][reset] = -1;
+		            enemies[i][reset] = -1;
 		        }
 	        }
     }
@@ -210,7 +210,7 @@ void game::update(int tick) {
     //if enemy gets hit by player projectile
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
-            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] == projectiles[j][0]) {
+            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
             player_score++;
             enemies[i][2]--;
             //check for enemy death
@@ -364,7 +364,7 @@ char game::playerMove(char move) {
 bool game::enemies_empty() {
     bool empty = true;
     for(int i = 0; i < max_number_of_enemies; i++) {
-        if(!(enemies[i][0] == -1 && enemies[i][2] == -1)) {
+        if(!(enemies[i][0] == -1 || enemies[i][2] == -1)) {
             empty = false;
 	    }
     }
@@ -404,7 +404,7 @@ void game::add_enemies() {
     std::set<int> enemy_coordinates{};
 
     for (int i = 0; i < max_number_of_enemies; i++)    {
-        if (enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0 && enemy_coordinates.count(enemies[i][1] - 1) == 0)    {
+        if (enemies[i][1] != -1 && enemies[i][0] != -1 && enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0 && enemy_coordinates.count(enemies[i][1] - 1) == 0)    {
             //not in set
             enemy_coordinates.insert(enemies[i][1] - 1);
             enemy_coordinates.insert(enemies[i][1]);
