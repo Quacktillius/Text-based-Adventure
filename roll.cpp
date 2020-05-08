@@ -12,7 +12,7 @@ void rollTheIntro(WINDOW * up, int up_y, int up_x, WINDOW * mid, int mid_y, int 
     
     std::string * lines = new std::string[number_of_lines];
     
-    for(int i = 0, i_lines = 0; i < message_len, i_lines < number_of_lines; i++) {
+    for(int i = 0, i_lines = 0; i < message_len && i_lines < number_of_lines; i++) {
         if(message[i] == '\n') {
             i_lines++;
             continue;
