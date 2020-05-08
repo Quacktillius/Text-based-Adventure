@@ -128,6 +128,10 @@ void game::display(WINDOW * win, WINDOW * hud) {
                             player_score += 10;
                             for (int k = 0; k < max_number_of_enemies; k++) {
                                 enemies[k][0] = -1;
+                                enemies[k][1] = -1;
+                                enemies[k][2] = -1;
+                                enemies[k][3] = -1;
+                                enemies[k][4] = -1;
                             }
                             player_countdown = 100;
                             bfb_used = true;

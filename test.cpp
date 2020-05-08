@@ -93,7 +93,7 @@ int main() {
 	game game1(win, hud, (save -> pushGame()).getLevel(), (save -> pushGame()).getPlayerX(), (save -> pushGame()).getPlayerY(), (save -> pushGame().getPlayerSpeed()), (save -> pushGame().getPlayerScore()), (save -> pushGame().getPlayerHealth()), pe, pu);
 
 	game1.generate_enemies(10000);
-	game1.generate_powerups(700);
+	game1.generate_powerups(3000);
 
 	while(true){
 
