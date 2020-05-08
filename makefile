@@ -25,7 +25,7 @@ test.o: test.cpp test.h roll.h newGame.h saveGame.h mainMenu.h windowDetails.h $
 	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
 
 Game: windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $^ $(endnc)
+	g++ $(flags) $(begnc) -o $@ $^ $(endnc)
 
 run:
 	./Game 2> log.txt
@@ -35,5 +35,15 @@ delnc:
 	rm -rf local repos
 	echo "The ncurses files have been deleted"
 
-.PHONY: run delnc
+clean:
+	rm *.o
+	rm Game
+
+full_clean:
+	rm ncurses_has_been_set_up.txt
+	rm -rf local repos
+	rm *.o
+	rm Game
+
+.PHONY: run delnc clean full_clean
 
