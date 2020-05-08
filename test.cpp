@@ -1,4 +1,5 @@
 #include "test.h"
+#include "roll.h"
 
 int main() {
 	// initialise ncurses stuff

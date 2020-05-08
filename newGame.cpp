@@ -206,7 +206,7 @@ void game::update(int tick) {
     //if enemy gets hit by player projectile
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
-            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0]>= projectiles[j][0]) {
+            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] == projectiles[j][0]) {
             player_score++;
             enemies[i][2]--;
             //check for enemy death
