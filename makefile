@@ -1,5 +1,5 @@
 flags = -pedantic-errors -std=c++11 -Wall
-begnc = -I local/include -I local/include/ncursestw -L local/lib
+begnc = -I local_astrid/include -I local_astrid/include/ncursestw -L local_astrid/lib
 endnc = -lncursestw -ldl -pthread
 nc = ncurses_has_been_set_up.txt
 
@@ -32,7 +32,7 @@ run:
 
 delnc:
 	rm ncurses_has_been_set_up.txt
-	rm -rf local repos
+	rm -rf local_astrid repos_astrid
 	echo "The ncurses files have been deleted"
 
 clean:
@@ -41,7 +41,7 @@ clean:
 
 full_clean:
 	rm ncurses_has_been_set_up.txt
-	rm -rf local repos
+	rm -rf local_astrid repos_astrid
 	rm *.o
 	rm Game
 
