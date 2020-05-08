@@ -74,12 +74,12 @@ int main() {
 
 		if(game1.enemies_empty() && game1.get_bfb_used() == false && game1.get_player_countdown() <= 0)	{
 			game1.add_enemies();
-			//game1.generate_enemies(5);
+			game1.generate_enemies(5);
 		}
 
 		if(game1.powerups_empty())	{
 			game1.add_powerups();
-			//game1.generate_powerups(2);
+			game1.generate_powerups(2);
 		}
 
 		game1.display(win, hud);

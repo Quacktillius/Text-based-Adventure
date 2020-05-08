@@ -129,11 +129,11 @@ void game::display(WINDOW * win, WINDOW * hud) {
                             for (int k = 0; k < max_number_of_enemies; k++) {
                                 enemies[k][0] = -1;
                             }
-                            player_countdown = 150;
+                            player_countdown = 100;
                             bfb_used = true;
                             break;
                     case 2: // fast movement powerup
-                            player_countdown = 1500;
+                            player_countdown = 500;
                             player_speed += 2;
                             break;
                 }
@@ -186,8 +186,12 @@ void game::update(int tick) {
                 continue;
 
 	        enemies[i][0] = (enemies[i][0] == win_y - 1) ? enemies[i][0] : enemies[i][0] + 1;
+            // took a chunk from here
+        }
+    }
 
-	        //enemy reaches end of map
+    for (int i = 0; i < max_number_of_enemies; i++) {
+        //enemy reaches end of map
 	        if(enemies[i][0] == win_y - 1) {
                 player_health--;
 
@@ -196,7 +200,6 @@ void game::update(int tick) {
 		        enemies[i][reset] = -1;
 		        }
 	        }
-        }
     }
 
     //if enemy gets hit by player projectile
@@ -206,7 +209,7 @@ void game::update(int tick) {
             player_score++;
             enemies[i][2]--;
             //check for enemy death
-            if (enemies[i][2] == 0) {
+            if (enemies[i][2] <= 0) {
                 for(int reset = 0; reset < 5; reset++) {
 		        enemies[i][reset] = -1;
 		        }
@@ -356,7 +359,7 @@ char game::playerMove(char move) {
 bool game::enemies_empty() {
     bool empty = true;
     for(int i = 0; i < max_number_of_enemies; i++) {
-        if(!(enemies[i][0] == -1 && enemies[i][2] == -1 && enemies[i][1] == -1 && enemies[i][3] == -1 && enemies[i][4] == -1)) {
+        if(!(enemies[i][0] == -1 && enemies[i][2] == -1)) {
             empty = false;
 	    }
     }
