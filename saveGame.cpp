@@ -186,8 +186,8 @@ void SaveFile::checksave() {
 }
 
 void removeSave(SaveFile * save)  {
-    std::ofstream ofile("Savegame1.dat", std::ios::binary | std::ios::out | std::ios::beg);
-    std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in | std::ios::beg);
+    std::ofstream ofile("Savegame1.dat", std::ios::binary | std::ios::out);
+    std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     SaveFile * temp = new SaveFile("");
     while (ifile.read((char * ) temp, sizeof(*temp)))   {
         if (temp -> getName() == save -> getName())  {
