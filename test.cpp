@@ -110,7 +110,7 @@ int main() {
 		if(game1.isOver())	{
 			std::cerr << "Game over " << count << "\n";
 			save -> checksave();
-			//save -> saveLeaderboard();
+			saveLeaderboard(game1.getPlayerScore());
 			break;
 		}
 		std::cerr << "Checked gameover " << count << "\n";

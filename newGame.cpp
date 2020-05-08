@@ -402,6 +402,7 @@ void game::add_enemies() {
     for (int i = 0; i < max_number_of_enemies; i++)    {
         if (enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0 && enemy_coordinates.count(enemies[i][1] - 1) == 0)    {
             //not in set
+            enemy_coordinates.insert(enemies[i][1] - 1);
             enemy_coordinates.insert(enemies[i][1]);
             enemy_coordinates.insert(enemies[i][1] + 1);
             enemy_coordinates.insert(enemies[i][1] + 2);

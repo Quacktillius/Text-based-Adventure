@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include <cstdlib>
 #include <ncurses.h>
 
@@ -19,7 +20,6 @@ public:
     game pushGame();
     void setGame(WINDOW * win, WINDOW * hud,int,int,int,int,int,int,int[5][5],int[1][3]);
     void checksave();
-    void saveLeaderboard();
     std::string getName();
     SaveFile();
     SaveFile(std::string);
@@ -30,5 +30,6 @@ SaveFile * GetSave();
 void writeSave(SaveFile save);
 void removeSave(SaveFile * save);
 void displayLeaderBoard(WINDOW * mm, int menu_y, int menu_x);
+void saveLeaderboard(int score);
 
 #endif
