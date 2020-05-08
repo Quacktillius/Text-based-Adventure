@@ -9,8 +9,8 @@ int main() {
 	int intro_y, intro_x;
 	getmaxyx(stdscr, intro_y, intro_x);
 	WINDOW * up= newwin(intro_y / 3 - 0, intro_x, 0, 0);
-	WINDOW * mid= newwin(intro_y / 3 - 1, intro_x, y / 3, 0);
-	WINDOW * low= newwin(intro_y / 3 - 1, intro_x, 2 * y / 3, 0);
+	WINDOW * mid= newwin(intro_y / 3 - 1, intro_x, intro_y / 3, 0);
+	WINDOW * low= newwin(intro_y / 3 - 1, intro_x, 2 * intro_y / 3, 0);
 	std::string intro_message = "Get ready for a totally mediocre gaming experience.";
 	rollTheIntro(up, intro_y/3, intro_x, mid, intro_y/3 - 1, intro_x, low, intro_y/3 - 1, intro_x, intro_message);
 	wrefresh(up);
