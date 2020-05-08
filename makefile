@@ -25,7 +25,7 @@ test.o: test.cpp test.h roll.h newGame.h saveGame.h mainMenu.h windowDetails.h $
 	g++ $(flags) $(begnc) -o $@ -c $< $(endnc)
 
 Game: windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(nc)
-	g++ $(flags) $(begnc) -o $@ $^ $(endnc)
+	g++ $(flags) $(begnc) -o $@ windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(endnc)
 
 run:
 	./Game 2> log.txt
