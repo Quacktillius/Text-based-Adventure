@@ -31,7 +31,7 @@ The player will control a ship at the bottom of the screen.
 
 ##### Enemies
 Enemy ships will randomly appear at the top of the screen and move downwards.
-Some enemies will have armor, and will be harder to gun down.
+Some enemies will fuse together into a chain or block (randomly), and will be harder to gun down.
 
 ##### Power Ups (tentative list)
 * BFB (inspired by the BFG from the Doom games, it kills all enemy ships in one shot, but is one use only)
