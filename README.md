@@ -64,7 +64,7 @@ Regarding the intro sequence that plays at the beginning of the game:
 ### In-game:
 `A`- Strafe left  
 `D`- Strafe right  
-`W`- Shoot 
+`W`- Shoot  
 `P`- Exit the game (without saving)
 
 ## Power-Up Symbols:
