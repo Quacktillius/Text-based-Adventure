@@ -41,7 +41,7 @@ The player will control a ship at the bottom of the screen.
 Enemy ships will randomly appear at the top of the screen and move downwards.
 Some enemies will fuse together into a chain or block (randomly), and will be harder to gun down.
 
-##### Power Ups (tentative list)
+##### Power Ups
 * BFB (inspired by the BFG from the Doom games, it kills all enemy ships in one shot, but is one use only)
 * Extra Life (lets the player respawn once more without losing progress)
 * Hyperjets (makes player movements 100% faster)
