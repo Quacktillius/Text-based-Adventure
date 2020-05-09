@@ -23,6 +23,11 @@ You are a combat pilot sent as part of the UN Space Exploration Team (UNSET) to 
 ##### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive for as long as you can.
 
 ##### Player Mechanics
+```
+ ^ 
+/#\
+H#H
+```
 The player will control a ship at the bottom of the screen.
 * Can move horizontally
 * Can fire projectiles towards enemies
@@ -30,6 +35,9 @@ The player will control a ship at the bottom of the screen.
 * Has 3 lives, i.e can take damage thrice without having to restart
 
 ##### Enemies
+```
+O-O
+```
 Enemy ships will randomly appear at the top of the screen and move downwards.
 Some enemies will fuse together into a chain or block (randomly), and will be harder to gun down.
 
