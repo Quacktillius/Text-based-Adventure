@@ -11,16 +11,16 @@
 
 ## Proposal
 
-In this project, we will use the 1981 arcade game **Galaga** as a source of inspiration and design a * *space arcade shooter* *.
+In this project, we have used the 1981 arcade game **Galaga** as a source of inspiration and designed a * *space arcade shooter* *.
 
 ### Game Description
 ##### Name: Astrid Crisis (not final)
-The fun game mechanics and its arcadey style will be the game's main feature, but there will also be a minimalistic story-line with a beginning and an end to guide the gameplay.
+The game's shooter mechanics and its arcadey style are the game's main feature, but there is also a minimalistic story-line (see Premise).
 
 ##### Premise
-You are a combat pilot sent as part of the UN Space Exploration Team (UNSET) to the newly discovered exoplanet Astrid. However, upon arrival you quickly find out that the planet was a trap set up by Alien Demons. With all of your crew members dead, you must fight your way back through an endless onslaught of Demons, killing as many as you can.
+You are a combat pilot sent as part of the UN Space Exploration Team (UNSET) to the newly discovered exoplanet Astrid. However, upon arrival you quickly find out that the planet was a trap set up by Alien Demons. With all of your crew members dead, you must fight in a heroic last-stand against an endless onslaught of Demons, killing as many as you can.
 
-##### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive by avoiding incoming projectiles.
+##### Objective: Destroy waves of enemies before they reach the bottom of the screen, and survive for as long as you can.
 
 ##### Player Mechanics
 The player will control a ship at the bottom of the screen.
@@ -30,7 +30,7 @@ The player will control a ship at the bottom of the screen.
 * Has 3 lives, i.e can take damage thrice without having to restart
 
 ##### Enemies
-Enemies will randomly appear at the top of the screen and move downwards. There will be distinct classes of enemies and each class will add some nuances to the core gameplay loop.
+Enemy ships will randomly appear at the top of the screen and move downwards.
 Some enemies will have armor, and will be harder to gun down.
 
 ##### Power Ups (tentative list)
