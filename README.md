@@ -57,11 +57,11 @@ Regarding the intro sequence that plays at the beginning of the game:
 
 ## Controls:
 ### Menu:
-1- Make a new Game (No need to press Enter, but PRESS Enter after finished typing name of save)\n
-2- Leaderboard (No need to press Enter)\n
-3- Exit (No need to press Enter)\n
+1- Make a new Game (No need to press Enter, but PRESS Enter after finished typing name of save)  
+2- Leaderboard (No need to press Enter)   
+3- Exit (No need to press Enter)  
 
 ### In-game:
-A- Strafe left\n
-D- Strafe right\n
-W- Shoot
+A- Strafe left  
+D- Strafe right  
+W- Shoot  
