@@ -68,5 +68,5 @@ W- Shoot
 
 ## Power-Up Symbols:
 ### BFB: *
-### Extra Life: #
+### Extra Life: \#
 ### Hyper-jet: @
