@@ -58,22 +58,23 @@ Regarding the intro sequence that plays at the beginning of the game:
 ## Controls:
 ### Menu:
 1- Make a new Game (No need to press Enter)  
-2- Leaderboard (No need to press Enter)   
+2- Leaderboard (No need to press Enter, but press enter once the Leaderboard is displayed in order to return to the menu)   
 3- Exit (No need to press Enter)  
 
 ### In-game:
-A- Strafe left  
-D- Strafe right  
-W- Shoot  
+`A`- Strafe left  
+`D`- Strafe right  
+`W`- Shoot 
+`P`- Exit the game (without saving)
 
 ## Power-Up Symbols:
-### BFB: *
-### Extra Life: \#
-### Hyper-jet: @
+### BFB: `*`
+### Extra Life: `\#`
+### Hyper-jet: `@`
 
 ## DEVELOPER NOTES (IMPORTANT)
-* A glitch in the game may randomly occur that causes the enemies to stick to player projectiles. At this point, the player must pick up a BFB powerup in order to reset enemy spawns and rid himself of the curse. Alternatively, the game may be terminated by pressing `p` on the keyboard. Then, running `make clean`, `make Game` and finally, `make run` removes the glitch.
-* If `p` is pressed to exit the game, the current score WILL NOT BE SAVED.
+* A glitch in the game may randomly occur that causes the enemies to stick to player projectiles. At this point, the player must pick up a BFB powerup in order to reset enemy spawns and rid himself of the curse. Alternatively, the game may be terminated by pressing `P` on the keyboard. Then, running `make clean`, `make Game` and finally, `make run` removes the glitch.
+* If `P` is pressed to exit the game, the current score WILL NOT BE SAVED.
 
 ## INSTRUCTIONS FOR BUILDING AND RUNNING 
 * Once the repository has been cloned, run the command `make Game` in order to install the necessary library (ncurses) and set up the executable file (`Game`), log file (`log.txt`), and score save file (`Leaderboard.txt`).
