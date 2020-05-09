@@ -3,10 +3,10 @@
 
 #include <ncurses.h>
 #include <cstdlib>
-#include "saveGame.h"
+#include "newGame.h"
 #include <unistd.h>
 #include <string>
 
-SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x);
+void main_menu(WINDOW * mm, int menu_y, int menu_x);
 
 #endif

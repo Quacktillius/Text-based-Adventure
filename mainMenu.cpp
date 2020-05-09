@@ -1,6 +1,6 @@
 #include "mainMenu.h"
 
-SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x) {
+void main_menu(WINDOW * mm, int menu_y, int menu_x) {
 
     int input;
     
@@ -22,12 +22,10 @@ SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x) {
 	wmove(mm, menu_y / 2 + 3, menu_x / 2 - 7);
         waddstr(mm, "1* NEW GAME");
 	wmove(mm, menu_y / 2 + 4, menu_x / 2 - 7);
-        waddstr(mm, "2* LOAD GAME");
+        waddstr(mm, "2* LEADERBOARD");
 	wmove(mm, menu_y / 2 + 5, menu_x / 2 - 7);
         waddstr(mm, "3* EXIT");
-        wmove(mm, menu_y / 2 + 6, menu_x / 2 - 7);
-        waddstr(mm, "4* LEADERBOARD");
-
+        
 	wmove(mm, menu_y / 2 + 7, menu_x / 2 - 13);
         waddstr(mm, "PLEASE SELECT AN OPTION: ");
 
@@ -35,7 +33,7 @@ SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x) {
 	sleep(1);
 	input = wgetch(mm);
       
-        if (input < '1' || input > '4') {
+        if (input < '1' || input > '3') {
             sleep(1);
 	    werase(mm);
 	    wmove(mm, menu_y / 2, menu_x / 2 - 12);
@@ -47,26 +45,17 @@ SaveFile * main_menu(WINDOW * mm, int menu_y, int menu_x) {
         }
 	else break;
     }
-	sleep(2);
-    SaveFile * save = NULL;
-	switch(input)   {
-        case '1': save = new SaveFile;
-                return save;
+    sleep(2);
+    switch(input)   {
+        case '1': 
                 break;
-        case '2': save = GetSave();
-                if (save == NULL)   {
-                    save = new SaveFile;
-                }
-                return save;
+        case '2':displayLeaderBoard(mm, menu_y, menu_x);
+                main_menu(mm, menu_y, menu_x);
                 break;
         case '3': werase(mm);
                 delwin(mm);
                 endwin();
                 exit(0);
                 break;
-        case '4': displayLeaderBoard(mm, menu_y, menu_x);
-                return main_menu(mm, menu_y, menu_x);
-                break;
     }
-    return save;
 }

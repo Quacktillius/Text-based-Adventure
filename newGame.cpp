@@ -15,7 +15,8 @@ game::game() {
     player_speed=2;
     player_score=0;
     player_countdown=0;
-    level = 0;
+    max_number_of_enemies = 5;
+    level = 1;
     bfb_used = false;
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -10;
@@ -37,19 +38,24 @@ game::game(WINDOW * win, WINDOW * hud, int lvl, int px, int py, int ps, int psco
     player_speed = ps;
     player_score = pscore;
     player_countdown = 0;
+    max_number_of_enemies = 5;
     bfb_used = false;
+    std::cerr << "Assignment complete\n";
     for(int i = 0; i < max_projectiles; i++) {
         projectiles[i][0] = -10;
 	    projectiles[i][1] = -10;
     }
+    std::cerr << "Projectiles set\n";
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int stat = 0; stat < 5; stat++)
 	        enemies[i][stat] = pe[i][stat];
     }
+    std::cerr << "Enemies set\n";
     for(int i = 0; i < max_number_of_powerups; i++) {
         for(int stat = 0; stat < 3; stat++)
 	        powerups[i][stat] = pu[i][stat];
     }
+    std::cerr << "Powerups set\n";
 }
 
 void game::display(WINDOW * win, WINDOW * hud) {
@@ -210,7 +216,7 @@ void game::update(int tick) {
     //if enemy gets hit by player projectile
     for(int i = 0; i < max_number_of_enemies; i++) {
         for(int j = 0; j < max_projectiles; j++) {
-            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0]) {
+            if((enemies[i][1] - 2 == projectiles[j][1] || enemies[i][1] - 1 == projectiles[j][1] || enemies[i][1] == projectiles[j][1] || enemies[i][1] + 1 == projectiles[j][1] || enemies[i][1] + 2 == projectiles[j][1]) && enemies[i][0] >= projectiles[j][0] && projectiles[j][0] != -10) {
             player_score++;
             enemies[i][2]--;
             //check for enemy death
@@ -303,6 +309,8 @@ int game::getPlayerHealth() {
 
 void game::levelup()    {
     level++;
+    if (max_number_of_enemies <= 25)
+        max_number_of_enemies++;
 }
 
 void game::setPos(int x, int y)   {
@@ -404,8 +412,9 @@ void game::add_enemies() {
     std::set<int> enemy_coordinates{};
 
     for (int i = 0; i < max_number_of_enemies; i++)    {
-        if (enemies[i][1] != -1 && enemies[i][0] != -1 && enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0 && enemy_coordinates.count(enemies[i][1] - 1) == 0)    {
+        if (enemies[i][1] != -1 && enemies[i][0] != -1 && enemy_coordinates.count(enemies[i][1]) == 0 && enemy_coordinates.count(enemies[i][1] + 1) == 0 && enemy_coordinates.count(enemies[i][1] + 2) == 0 && enemy_coordinates.count(enemies[i][1] - 1) == 0 && enemy_coordinates.count(enemies[i][1] - 2) == 0)    {
             //not in set
+            enemy_coordinates.insert(enemies[i][1] - 2);
             enemy_coordinates.insert(enemies[i][1] - 1);
             enemy_coordinates.insert(enemies[i][1]);
             enemy_coordinates.insert(enemies[i][1] + 1);
@@ -461,4 +470,38 @@ bool game::get_bfb_used()   {
 
 void game::reduce_player_countdown()    {
     player_countdown--;
+}
+
+void saveLeaderboard(int score)    {
+    std::ofstream ofile("Leaderboard.txt", std::ios::app);
+    ofile << score << "\n"; 
+    ofile.close();
+}
+
+void displayLeaderBoard(WINDOW * mm, int menu_y, int menu_x)   {
+    werase(mm);
+    std::ifstream ifile("Leaderboard.txt", std::ios::in);
+    int i = 0;
+    int score = 0;
+    int count = 0;
+    wmove(mm, menu_y / 2 - 8, menu_x / 2 - 10);
+    waddstr(mm, "LEADERBOARD TOP 10");
+    std::vector<int> scoreboard;
+    while (ifile >> score)    {
+        scoreboard.push_back(score);
+        i++;
+    }
+    count = i;
+    std::sort(scoreboard.begin(), scoreboard.end(), std::greater<int>());
+    i = 0;
+    ifile.close();
+    while (i < count && i < 10 && scoreboard[i] != 0)  {
+        wmove(mm, menu_y / 2 - 6 + i, menu_x / 2 - 12);
+        std::string output = "Rank #" + std::to_string(i + 1) + "    " + std::to_string(scoreboard[i]); 
+        waddstr(mm, output.c_str());
+        i++;
+    }
+    wrefresh(mm);
+    wgetch(mm);
+    werase(mm);
 }

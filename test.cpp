@@ -64,13 +64,9 @@ int main() {
 	obj.setx(win_x);
 
 	//SaveFile
-	SaveFile * save = main_menu(mm, win_y, win_x);
-	if (save == NULL)	{
-		delwin(mm);
-		endwin();
-		exit(0);
-	}
-
+	main_menu(mm, win_y, win_x);
+	game newgame;
+	std::cerr << "Created new game\n";
 	noecho();
 	nodelay(stdscr, TRUE);
 
@@ -79,18 +75,24 @@ int main() {
 	WINDOW * win = newwin(win_y, win_x, 0, 0);
 	WINDOW * hud = newwin(hud_y, hud_x, win_y + 1, 0);
 
-	int count = 0;
+	int count = 1;
 	char c;
 
 	int px = win_x / 2, py = (win_y / 6) * 5;
 
-	(save -> pushGame()).setPos(px, py);
+	newgame.setPos(px, py);
+
+	std::cerr << "Set position\n";
 
 	int pe[5][5]={{2,5,0,-1,-1},{1,20,0,-1,-1},{4,30,0, -1,-1},{3,11,0,-1,-1},{6,15,0,-1,-1}};
 	
 	int pu[1][3] = {{3,7,1}};
 
-	game game1(win, hud, (save -> pushGame()).getLevel(), (save -> pushGame()).getPlayerX(), (save -> pushGame()).getPlayerY(), (save -> pushGame().getPlayerSpeed()), (save -> pushGame().getPlayerScore()), (save -> pushGame().getPlayerHealth()), pe, pu);
+	std::cerr << "Got coordinates\n";
+
+	game game1(win, hud, newgame.getLevel(), newgame.getPlayerX(), newgame.getPlayerY(), newgame.getPlayerSpeed(), newgame.getPlayerScore(), newgame.getPlayerHealth(), pe, pu);
+	//delete newgame;
+	std::cerr << "Created second game\n";
 
 	game1.generate_enemies(10000);
 	game1.generate_powerups(3000);
@@ -117,19 +119,18 @@ int main() {
 			delwin(win);
 			delwin(hud);
 			endwin();
-			save -> saveProgress(game1);
 			system("clear");
-			delete save;
+			//delete newgame;
 			exit(0);
 		}
 
 		std::cerr << "Done input " << count << "\n";
 
-		if(game1.enemies_empty() && game1.get_bfb_used() == false && game1.get_player_countdown() <= 0)	{
+		if(game1.enemies_empty() && game1.get_bfb_used() == false)	{
 			std::cerr << "Checked all conditions " << count << "\n";
 			game1.add_enemies();
 			std::cerr << "Added enemies to buffer " << count << "\n";
-			game1.generate_enemies(100);
+			game1.generate_enemies(5);
 			std::cerr << "Generated new enemies " << count << "\n";
 		}
 
@@ -137,7 +138,7 @@ int main() {
 
 		if(game1.powerups_empty())	{
 			game1.add_powerups();
-			game1.generate_powerups(40);
+			game1.generate_powerups(1);
 		}
 
 		std::cerr << "Done setup " << count << "\n";
@@ -157,7 +158,6 @@ int main() {
 		std::cerr << "Done update " << count << "\n";
 		if(game1.isOver())	{
 			std::cerr << "Game over " << count << "\n";
-			save -> checksave();
 			saveLeaderboard(game1.getPlayerScore());
 			break;
 		}
@@ -188,7 +188,7 @@ int main() {
 	delwin(hud);
 	endwin();
 	
-	delete save; 
+	//delete newgame; 
 
 	return 0;
 }

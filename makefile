@@ -9,9 +9,6 @@ ncurses_has_been_set_up.txt:
 windowDetails.o: windowDetails.cpp windowDetails.h $(nc)
 	g++ $(flags) $(begnc) -o $@ -c $< 
 
-saveGame.o: saveGame.cpp saveGame.h windowDetails.h $(nc)
-	g++ $(flags) $(begnc) -o $@ -c $<
-
 mainMenu.o: mainMenu.cpp mainMenu.h saveGame.h windowDetails.h $(nc)
 	g++ $(flags) $(begnc) -o $@ -c $<
 
@@ -21,11 +18,12 @@ roll.o: roll.cpp roll.h $(nc)
 newGame.o: newGame.cpp newGame.h $(nc)
 	g++ $(flags) $(begnc) -o $@ -c $<
 
-test.o: test.cpp test.h roll.h newGame.h saveGame.h mainMenu.h windowDetails.h $(nc)
+test.o: test.cpp test.h roll.h newGame.h mainMenu.h windowDetails.h $(nc)
 	g++ $(flags) $(begnc) -o $@ -c $<
 
-Game: windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(nc)
-	g++ $(flags) $(begnc) -std=c++11 -o $@ windowDetails.o saveGame.o mainMenu.o roll.o newGame.o test.o $(endnc)
+Game: windowDetails.o mainMenu.o roll.o newGame.o test.o $(nc)
+	g++ $(flags) $(begnc) -o $@ windowDetails.o mainMenu.o roll.o newGame.o test.o $(endnc) 
+	touch Leaderboard.txt
 
 run:
 	./Game 2> log.txt
@@ -38,12 +36,16 @@ delnc:
 clean:
 	rm *.o
 	rm Game
+	rm Leaderboard.txt
+	rm log.txt
 
 full_clean:
 	rm ncurses_has_been_set_up.txt
 	rm -rf local_astrid repos_astrid
 	rm *.o
 	rm Game
+	rm Leaderboard.txt
+	rm log.txt
 
 .PHONY: run delnc clean full_clean
 

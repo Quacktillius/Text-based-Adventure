@@ -89,10 +89,10 @@ SaveFile * LoadGame(std::string save_name)   {
         ifile.close();
 
         werase(mm);
-	wmove(mm, menu_y / 2, menu_x / 2 - 9);
-	waddstr(mm, "Error loading game!");
+	    wmove(mm, menu_y / 2, menu_x / 2 - 9);
+	    waddstr(mm, "Error loading game!");
         wrefresh(mm);
-	sleep(1);
+	    sleep(1);
 
         return NULL;
     }
@@ -111,7 +111,7 @@ SaveFile * LoadGame(std::string save_name)   {
     waddstr(mm, "Save game not found");
     wrefresh(mm);
     sleep(1);
-
+    delete load_save;
     ifile.close();
     return NULL;
 }
@@ -135,10 +135,10 @@ SaveFile * GetSave()   {
         ifile.close();
         return NULL;
     }
-    SaveFile load_save;
+    SaveFile * load_save = new SaveFile("");
     char select;
-    while (ifile.read((char *) &load_save, sizeof(load_save)))   {
-        load_save.displaySave();
+    while (ifile.read((char *) load_save, sizeof(*load_save)))   {
+        load_save -> displaySave();
 
 	    wmove(mm, menu_y / 2 + 2, menu_x / 2 - 10);
 	    waddstr(mm, "Select this save? ");
@@ -147,7 +147,7 @@ SaveFile * GetSave()   {
         
         if (select == 'y' || select == 'Y') {
             ifile.close();
-            return LoadGame(load_save.getSaveName());
+            return LoadGame(load_save -> getSaveName());
         }
     }
     wmove(mm, menu_y / 2, menu_x / 2 - 14);
@@ -155,6 +155,7 @@ SaveFile * GetSave()   {
     wrefresh(mm);
     sleep(1);
     ifile.close();
+    delete load_save;
     return NULL;
 }
 
@@ -168,6 +169,7 @@ void writeSave(SaveFile save)   {
     ofile.write((char *) &save, sizeof(save));
     ofile.close();
 }
+
 void SaveFile::checksave() {
     std::ifstream ifile("Savegame.dat", std::ios::binary | std::ios::in);
     if (ifile.fail())   {

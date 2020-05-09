@@ -31,9 +31,9 @@ class game {
     };
     std::queue<enemy> all_enemies;
 
-    const int max_number_of_enemies=5;
+    int max_number_of_enemies;
     //y, x, health, projectile_y, projectile_x
-    int enemies[5][5];
+    int enemies[25][5];
 
     struct powerup {
         int y, x, type;
@@ -82,5 +82,8 @@ public:
     //reduce countdown time
     void reduce_player_countdown();
 };
+
+void saveLeaderboard(int score);
+void displayLeaderBoard(WINDOW * mm, int menu_y, int menu_x);
 
 #endif
