@@ -57,7 +57,7 @@ Regarding the intro sequence that plays at the beginning of the game:
 
 ## Controls:
 ### Menu:
-1- Make a new Game (No need to press Enter, but PRESS Enter after finished typing name of save)  
+1- Make a new Game (No need to press Enter)  
 2- Leaderboard (No need to press Enter)   
 3- Exit (No need to press Enter)  
 
