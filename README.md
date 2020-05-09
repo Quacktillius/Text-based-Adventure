@@ -47,3 +47,21 @@ Some enemies will have armor, and will be harder to gun down.
 | Dynamic Memory Management (DMM)          | We implement DMM to maintain dynamic queues of objects to be spawned into the game world, as well as dynamically initialise save files upon starting the game            |
 | File Input/Output                        | We use file handling for reading and writing binary file saves as mentioned above, along with text file handling in order to maintain a record of top scores                     |
 | Multiple Files of Program Code           | We use separate files for various features of the game (player actions, enemy actions, save/load, menu etc.)       |
+
+## DISCLAIMER
+Regarding the intro sequence that plays at the beginning of the game:
+* It is purely for comedic purposes, and thus, should be taken in a light hearted mannar.
+* The first line serves not to disregard the worth of the project, calling it "mediocre", but rather to set the tone for intro
+* The second line furthers this
+* We are NOT saying that this is the best project. The 3rd line was purely comedic. No one was bribed, or said that.
+
+## Controls:
+### Menu:
+1- Make a new Game (No need to press Enter, but PRESS Enter after finished typing name of save)
+2- Leaderboard (No need to press Enter)
+3- Exit (No need to press Enter)
+
+### In-game:
+A- Strafe left
+D- Strafe right
+W- Shoot
