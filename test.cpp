@@ -6,7 +6,7 @@ int main() {
 	initscr();
 	cbreak();
 	
-	//Intro
+	//Intro - A bunch of hacked-together code that renders the first cutscene sequence
 	int intro_y, intro_x;
 	getmaxyx(stdscr, intro_y, intro_x);
 	WINDOW * up= newwin(intro_y / 3 - 0, intro_x, 0, 0);
@@ -63,18 +63,20 @@ int main() {
 	obj.sety(win_y);
 	obj.setx(win_x);
 
-	//SaveFile
+	//Display menu, initialise game
 	main_menu(mm, win_y, win_x);
 	game * newgame = new game;
 	std::cerr << "Created new game\n";
 	noecho();
 	nodelay(stdscr, TRUE);
 
+	//Set up window parameters
 	win_y -= 6;
 	hud_x = win_x;
 	WINDOW * win = newwin(win_y, win_x, 0, 0);
 	WINDOW * hud = newwin(hud_y, hud_x, win_y + 1, 0);
 
+	//Count ticks and get player inputs
 	int count = 1;
 	char c;
 
@@ -90,28 +92,33 @@ int main() {
 
 	std::cerr << "Got coordinates\n";
 
+	//Initialise game to be played. Note: This is part of a template from previous versions (Savefiles)
+	//so it may not be completely obvious why we've done this
 	game * game1 = new game(win, hud, newgame -> getLevel(), newgame -> getPlayerX(), newgame -> getPlayerY(), newgame -> getPlayerSpeed(), newgame -> getPlayerScore(), newgame -> getPlayerHealth(), pe, pu);
 	delete newgame;
 	std::cerr << "Created second game\n";
 
+
+	//Create a bunch of enemies and powerups to start off
 	game1 -> generate_enemies(10000);
 	game1 -> generate_powerups(3000);
 
 	while(true){
-
+		//Level progression: Increase enemy cap (hard limit 25)
 		if (count % 1000 == 0)	{
 			game1 -> levelup();
 		}
 
 		std::cerr << "Got levelup " << count << "\n";
 
+		//Player Movement
 		if((c=getch()) != ERR) 
             c = game1 -> playerMove(c);
 
 		std::cerr << "Got input " << count << "\n";
 
 		if (c == 'p')	{
-			//save game and exit
+			//Exit without saving score
 			wrefresh(win);
 			wrefresh(hud);
 			werase(win);
@@ -120,12 +127,12 @@ int main() {
 			delwin(hud);
 			endwin();
 			system("clear");
-			//delete newgame;
 			exit(0);
 		}
 
 		std::cerr << "Done input " << count << "\n";
 
+		//Add enemies once the enemy array is empty
 		if(game1 -> enemies_empty() && game1 -> get_bfb_used() == false)	{
 			std::cerr << "Checked all conditions " << count << "\n";
 			game1 -> add_enemies();
@@ -136,6 +143,7 @@ int main() {
 
 		std::cerr << "spawned enemies " << count << "\n";
 
+		//Add powerups once the powerup array is empty
 		if(game1 -> powerups_empty())	{
 			game1 -> add_powerups();
 			game1 -> generate_powerups(1);
@@ -143,6 +151,7 @@ int main() {
 
 		std::cerr << "Done setup " << count << "\n";
 
+		//Display game state
 		game1 -> display(win, hud);
 		wrefresh(win);
 		wrefresh(hud);
@@ -154,19 +163,26 @@ int main() {
 
 		std::cerr << "Done display " << count << "\n";
 
+
+		//Update game state
 		game1 -> update(count);
 		std::cerr << "Done update " << count << "\n";
+
+		//Check game over state
 		if(game1 -> isOver())	{
 			std::cerr << "Game over " << count << "\n";
 			saveLeaderboard(game1 -> getPlayerScore());
 			break;
 		}
+
+		// Increment loop count, ensure no overflow
 		std::cerr << "Checked gameover " << count << "\n";
  		count = (count + 1) % 10000;
 	
 
 	}
 
+	// Wrap up the game state, free memory
 	std::cerr << "Exited game loop " << count << "\n";
 	game1 -> display(win, hud);
 	delete game1;
@@ -187,9 +203,7 @@ int main() {
 
 	delwin(win);
 	delwin(hud);
-	endwin();
-	
-	//delete newgame; 
+	endwin(); 
 
 	return 0;
 }

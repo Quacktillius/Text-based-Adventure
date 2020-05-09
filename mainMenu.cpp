@@ -3,6 +3,8 @@
 void main_menu(WINDOW * mm, int menu_y, int menu_x) {
 
     int input;
+
+    // render menu screen to take player input
     
     while (1)  {
 	
@@ -32,6 +34,8 @@ void main_menu(WINDOW * mm, int menu_y, int menu_x) {
         wrefresh(mm);
 	sleep(1);
 	input = wgetch(mm);
+
+        //handle invalid inputs from player
       
         if (input < '1' || input > '3') {
             sleep(1);
@@ -46,13 +50,16 @@ void main_menu(WINDOW * mm, int menu_y, int menu_x) {
 	else break;
     }
     sleep(2);
+    // call functions based on player input
     switch(input)   {
-        case '1': 
+        case '1':  // start player game
                 break;
-        case '2':displayLeaderBoard(mm, menu_y, menu_x);
+        case '2': // display player leaderboard - top 10 scores
+                displayLeaderBoard(mm, menu_y, menu_x);
                 main_menu(mm, menu_y, menu_x);
                 break;
-        case '3': werase(mm);
+        case '3': // exit game 
+                werase(mm);
                 delwin(mm);
                 endwin();
                 exit(0);

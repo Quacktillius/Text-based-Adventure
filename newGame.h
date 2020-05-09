@@ -53,6 +53,7 @@ public:
     void display(WINDOW * win, WINDOW * hud);
     void update(int);
     bool isOver();
+    // helper functions to access private game variables
     int getLevel();
     int getDimensions(int i);
     int getPlayer(int i);
@@ -65,7 +66,9 @@ public:
     void levelup();
     void setPos(int, int);
     game& operator=(game &g);
+    // Player movement
     char playerMove(char);
+    // Check if enemies are empty
     bool enemies_empty();
     //adds enemies to buffer queue
     void generate_enemies(int);
@@ -83,6 +86,8 @@ public:
     //reduce countdown time
     void reduce_player_countdown();
 };
+
+//Functions for Leaderboard.txt
 
 void saveLeaderboard(int score);
 void displayLeaderBoard(WINDOW * mm, int menu_y, int menu_x);
