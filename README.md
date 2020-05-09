@@ -65,3 +65,8 @@ Regarding the intro sequence that plays at the beginning of the game:
 A- Strafe left  
 D- Strafe right  
 W- Shoot  
+
+## Power-Up Symbols:
+### BFB: *
+### Extra Life: #
+### Hyper-jet: @
