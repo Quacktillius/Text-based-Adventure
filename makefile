@@ -9,7 +9,7 @@ ncurses_has_been_set_up.txt:
 windowDetails.o: windowDetails.cpp windowDetails.h $(nc)
 	g++ $(flags) $(begnc) -o $@ -c $< 
 
-mainMenu.o: mainMenu.cpp mainMenu.h saveGame.h windowDetails.h $(nc)
+mainMenu.o: mainMenu.cpp mainMenu.h windowDetails.h $(nc)
 	g++ $(flags) $(begnc) -o $@ -c $<
 
 roll.o: roll.cpp roll.h $(nc)
