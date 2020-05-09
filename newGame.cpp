@@ -1,5 +1,4 @@
 #include "newGame.h"
-#include "menu.h"
 
 game::game() {
     // Default constructor
