@@ -24,9 +24,9 @@ You are a combat pilot sent as part of the UN Space Exploration Team (UNSET) to 
 
 ##### Player Mechanics
 ```
-                                                        ^ 
-                                                       /#\
-                                                       H#H
+                                                     ^ 
+                                                    /#\
+                                                    H#H
 ```
 The player will control a ship at the bottom of the screen.
 * Can move horizontally
@@ -36,7 +36,7 @@ The player will control a ship at the bottom of the screen.
 
 ##### Enemies
 ```
-                                                       O-O
+                                                    O-O
 ```
 Enemy ships will randomly appear at the top of the screen and move downwards.
 Some enemies will fuse together into a chain or block (randomly), and will be harder to gun down.
