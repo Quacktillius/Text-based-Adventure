@@ -65,9 +65,9 @@ Regarding the intro sequence that plays at the beginning of the game:
 
 ## Controls:
 ### Menu:
-1- Make a new Game (No need to press Enter)  
-2- Leaderboard (No need to press Enter, but press enter once the Leaderboard is displayed in order to return to the menu)   
-3- Exit (No need to press Enter)  
+`1`- Make a new Game (No need to press Enter)  
+`2`- Leaderboard (No need to press Enter, but press enter once the Leaderboard is displayed in order to return to the menu)   
+`3`- Exit (No need to press Enter)  
 
 ### In-game:
 `A`- Strafe left  
