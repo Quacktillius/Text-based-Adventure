@@ -130,7 +130,7 @@ int main() {
 			std::cerr << "Checked all conditions " << count << "\n";
 			game1.add_enemies();
 			std::cerr << "Added enemies to buffer " << count << "\n";
-			game1.generate_enemies(5);
+			game1.generate_enemies(25);
 			std::cerr << "Generated new enemies " << count << "\n";
 		}
 

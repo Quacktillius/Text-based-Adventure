@@ -95,7 +95,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 
 	    //check if enemy hit by projectile
 	    for(int a = 0; a < max_projectiles; a++) {
-            if(enemy_y >= projectiles[a][0] && (enemy_x - 1 == projectiles[a][1] || enemy_x - 2 == projectiles[a][1] || enemy_x == projectiles[a][1] || enemy_x + 1 == projectiles[a][1] || enemy_x + 2 == projectiles[a][1]))  {
+            if(enemy_y > projectiles[a][0] && (enemy_x - 1 == projectiles[a][1] || enemy_x == projectiles[a][1] || enemy_x + 1 == projectiles[a][1] || enemy_x + 2 == projectiles[a][1]))  {
                 //player_score++;
                 overlap = true;
             }
@@ -119,7 +119,7 @@ void game::display(WINDOW * win, WINDOW * hud) {
 	    for(int j = 0; j < max_number_of_powerups; j++) {
 
 	        //if powerup overlaps with enemy
-	        if((powerups[j][0] == -1) || (powerups[j][0] == enemy_y && powerups[j][1] >= enemy_x && powerups[j][1] <= enemy_x + 3)) {
+	        if((powerups[j][0] == -1) || (powerups[j][0] == enemy_y && powerups[j][1] >= enemy_x - 1 && powerups[j][1] <= enemy_x + 3)) {
 	            powerups[j][0] = -1;
 	        }
 
