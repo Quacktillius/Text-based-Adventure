@@ -50,7 +50,7 @@ Some enemies will have armor, and will be harder to gun down.
 
 ## DISCLAIMER
 Regarding the intro sequence that plays at the beginning of the game:
-* It is purely for comedic purposes, and thus, should be taken in a light hearted mannar.
+* It is purely for comedic purposes, and thus, should be taken in a light hearted manner.
 * The first line serves not to disregard the worth of the project, calling it "mediocre", but rather to set the tone for intro
 * The second line furthers this
 * We are NOT saying that this is the best project. The 3rd line was purely comedic. No one was bribed, or said that.
@@ -70,3 +70,13 @@ W- Shoot
 ### BFB: *
 ### Extra Life: \#
 ### Hyper-jet: @
+
+## DEVELOPER NOTES (IMPORTANT)
+* A glitch in the game may randomly occur that causes the enemies to stick to player projectiles. At this point, the player must pick up a BFB powerup in order to reset enemy spawns and rid himself of the curse. Alternatively, the game may be terminated by pressing `p` on the keyboard. Then, running `make clean`, `make Game` and finally, `make run` removes the glitch.
+* If `p` is pressed to exit the game, the current score WILL NOT BE SAVED.
+
+## INSTRUCTIONS FOR BUILDING AND RUNNING 
+* Once the repository has been cloned, run the command `make Game` in order to install the necessary library (ncurses) and set up the executable file (`Game`), log file (`log.txt`), and score save file (`Leaderboard.txt`).
+* After installation, run `make run` in order to run the executable and start the game.
+* To clear up the game's executable files and text files `log.txt` and `Leaderboard.txt`, use the command `make clean`
+* To clear up ALL of the game's files and uninstall `ncurses`, run the command `make full_clean`.
