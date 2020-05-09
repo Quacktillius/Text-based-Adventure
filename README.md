@@ -50,11 +50,11 @@ Some enemies will fuse together into a chain or block (randomly), and will be ha
 
 | Coding Requirements                      | Feature                                                                                                    |
 | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Generation of Random Events              | Enemies and power-ups are spawned randomly into the game world                              |                               
-| Data Structures for Storing Game Status  | We use classes and objects in order to store game status in binary files and handle related functions in a seamless manner                               |
-| Dynamic Memory Management (DMM)          | We implement DMM to maintain dynamic queues of objects to be spawned into the game world, as well as dynamically initialise save files upon starting the game            |
-| File Input/Output                        | We use file handling for reading and writing binary file saves as mentioned above, along with text file handling in order to maintain a record of top scores                     |
-| Multiple Files of Program Code           | We use separate files for various features of the game (player actions, enemy actions, save/load, menu etc.)       |
+| Generation of Random Events              | Enemies and power-ups are spawned randomly into the game world. Moreover, the number of enemies that can spawn on screen, although limited by a cap, is random up to that cap value.                              |                               
+| Data Structures for Storing Game Status  | We use text file-handling in order to store Leaderboard scores and handle related functions in a seamless manner via classes. Moreover, at any given instant, the game status is stored in an object of the "game" class to interface with the program smoothly and without security issues.                               |
+| Dynamic Memory Management (DMM)          | We implement DMM to maintain dynamic queues of objects to be spawned into the game world, as well as dynamically initialise data structures for the game files upon starting the game. Also, memory is allocated dynamically within the intro sequence.             |
+| File Input/Output                        | We use text file handling in order to maintain a record of top scores within Leaderboard.txt, and display top 10 scores from the file                   |
+| Multiple Files of Program Code           | We use separate files for various features of the game (intro sequence handling, game status, menu etc.)       |
 
 ## DISCLAIMER
 Regarding the intro sequence that plays at the beginning of the game:
@@ -84,8 +84,14 @@ Regarding the intro sequence that plays at the beginning of the game:
 * A glitch in the game may randomly occur that causes the enemies to stick to player projectiles. At this point, the player must pick up a BFB powerup in order to reset enemy spawns and rid himself of the curse. Alternatively, the game may be terminated by pressing `P` on the keyboard. Then, running `make clean`, `make Game` and finally, `make run` removes the glitch.
 * If `P` is pressed to exit the game, the current score WILL NOT BE SAVED.
 
+## EXTERNAL LIBRARIES USED - `ncurses`
+* For the purposes of this project, we have used the library `ncurses` to draw console graphics. This library was used because it makes it easier for the program to navigate to a custom coordinate and set characters, instead of drawing the screen top-down every time an update is made to the game state.
+* `ncurses` also enables dynamic screen sizing, which ensures that the program can scale with displays of different sizes.
+* The library does not need to be manually set up by the user as a prerequisite. The Makefile deals with that process.
+
 ## INSTRUCTIONS FOR BUILDING AND RUNNING 
 * Once the repository has been cloned, run the command `make Game` in order to install the necessary library (ncurses) and set up the executable file (`Game`), log file (`log.txt`), and score save file (`Leaderboard.txt`).
 * After installation, run `make run` in order to run the executable and start the game.
+* The recommended size for running the game is 24 rows by 80 cols. However, the game will render and run at any window size, albeit with a reduced difficulty (since enemies take longer to reach the bottom of the screen).
 * To clear up the game's executable files and text files `log.txt` and `Leaderboard.txt`, use the command `make clean`
 * To clear up ALL of the game's files and uninstall `ncurses`, run the command `make full_clean`.
