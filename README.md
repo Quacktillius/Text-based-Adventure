@@ -69,7 +69,7 @@ Regarding the intro sequence that plays at the beginning of the game:
 
 ## Power-Up Symbols:
 ### BFB: `*`
-### Extra Life: `\#`
+### Extra Life: `#`
 ### Hyper-jet: `@`
 
 ## DEVELOPER NOTES (IMPORTANT)
