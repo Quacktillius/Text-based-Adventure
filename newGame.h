@@ -8,6 +8,7 @@
 #include <queue>
 #include <time.h>
 #include <vector>
+#include <fstream>
 #include <algorithm>
 #include <iostream>
 #include <set>
