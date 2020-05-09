@@ -65,7 +65,7 @@ int main() {
 
 	//SaveFile
 	main_menu(mm, win_y, win_x);
-	game newgame;
+	game * newgame = new game;
 	std::cerr << "Created new game\n";
 	noecho();
 	nodelay(stdscr, TRUE);
@@ -80,7 +80,7 @@ int main() {
 
 	int px = win_x / 2, py = (win_y / 6) * 5;
 
-	newgame.setPos(px, py);
+	newgame -> setPos(px, py);
 
 	std::cerr << "Set position\n";
 
@@ -90,23 +90,23 @@ int main() {
 
 	std::cerr << "Got coordinates\n";
 
-	game game1(win, hud, newgame.getLevel(), newgame.getPlayerX(), newgame.getPlayerY(), newgame.getPlayerSpeed(), newgame.getPlayerScore(), newgame.getPlayerHealth(), pe, pu);
-	//delete newgame;
+	game * game1 = new game(win, hud, newgame -> getLevel(), newgame -> getPlayerX(), newgame -> getPlayerY(), newgame -> getPlayerSpeed(), newgame -> getPlayerScore(), newgame -> getPlayerHealth(), pe, pu);
+	delete newgame;
 	std::cerr << "Created second game\n";
 
-	game1.generate_enemies(10000);
-	game1.generate_powerups(3000);
+	game1 -> generate_enemies(10000);
+	game1 -> generate_powerups(3000);
 
 	while(true){
 
 		if (count % 1000 == 0)	{
-			game1.levelup();
+			game1 -> levelup();
 		}
 
 		std::cerr << "Got levelup " << count << "\n";
 
 		if((c=getch()) != ERR) 
-            c = game1.playerMove(c);
+            c = game1 -> playerMove(c);
 
 		std::cerr << "Got input " << count << "\n";
 
@@ -126,24 +126,24 @@ int main() {
 
 		std::cerr << "Done input " << count << "\n";
 
-		if(game1.enemies_empty() && game1.get_bfb_used() == false)	{
+		if(game1 -> enemies_empty() && game1 -> get_bfb_used() == false)	{
 			std::cerr << "Checked all conditions " << count << "\n";
-			game1.add_enemies();
+			game1 -> add_enemies();
 			std::cerr << "Added enemies to buffer " << count << "\n";
-			game1.generate_enemies(25);
+			game1 -> generate_enemies(25);
 			std::cerr << "Generated new enemies " << count << "\n";
 		}
 
 		std::cerr << "spawned enemies " << count << "\n";
 
-		if(game1.powerups_empty())	{
-			game1.add_powerups();
-			game1.generate_powerups(1);
+		if(game1 -> powerups_empty())	{
+			game1 -> add_powerups();
+			game1 -> generate_powerups(1);
 		}
 
 		std::cerr << "Done setup " << count << "\n";
 
-		game1.display(win, hud);
+		game1 -> display(win, hud);
 		wrefresh(win);
 		wrefresh(hud);
 
@@ -154,11 +154,11 @@ int main() {
 
 		std::cerr << "Done display " << count << "\n";
 
-		game1.update(count);
+		game1 -> update(count);
 		std::cerr << "Done update " << count << "\n";
-		if(game1.isOver())	{
+		if(game1 -> isOver())	{
 			std::cerr << "Game over " << count << "\n";
-			saveLeaderboard(game1.getPlayerScore());
+			saveLeaderboard(game1 -> getPlayerScore());
 			break;
 		}
 		std::cerr << "Checked gameover " << count << "\n";
@@ -168,7 +168,8 @@ int main() {
 	}
 
 	std::cerr << "Exited game loop " << count << "\n";
-	game1.display(win, hud);
+	game1 -> display(win, hud);
+	delete game1;
 
 	// wrapping up ncurses output
 	wrefresh(win);
