@@ -14,7 +14,7 @@
 In this project, we have used the 1981 arcade game **Galaga** as a source of inspiration and designed a * *space arcade shooter* *.
 
 ### Game Description
-##### Name: Astrid Crisis (not final)
+##### Name: Astrid Crisis
 The game's shooter mechanics and its arcadey style are the game's main feature, but there is also a minimalistic story-line (see Premise).
 
 ##### Premise
