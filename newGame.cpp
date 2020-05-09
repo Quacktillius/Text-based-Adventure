@@ -72,8 +72,8 @@ void game::display(WINDOW * win, WINDOW * hud) {
     for(int i = 0; i < max_projectiles; i++) {
         if(projectiles[i][0] == -10)
             continue;
-	    wmove(win, projectiles[i][0], projectiles[i][1]);
-	    waddch(win, '!');
+	wmove(win, projectiles[i][0], projectiles[i][1]);
+	waddch(win, '!');
     }
 
     //display enemies
@@ -186,7 +186,7 @@ void game::update(int tick) {
     //update player projectiles
     for(int i = 0; i < max_projectiles; i++) {
         if(projectiles[i][0] == -10) continue;
-	    projectiles[i][0] = (projectiles[i][0] == 0) ? -10 : projectiles[i][0] - 1;
+	projectiles[i][0] = (projectiles[i][0] == 0) ? -10 : projectiles[i][0] - 1;
     }
 
     //only update enemies every 15 ticks
@@ -195,7 +195,7 @@ void game::update(int tick) {
             if(enemies[i][0] == -1 || enemies[i][2] == -1) 
                 continue;
 
-	        enemies[i][0] = (enemies[i][0] == win_y) ? enemies[i][0] : enemies[i][0] + 1;
+	    enemies[i][0] = (enemies[i][0] == win_y) ? enemies[i][0] : enemies[i][0] + 1;
             // took a chunk from here
         }
     }
@@ -204,7 +204,7 @@ void game::update(int tick) {
     for (int i = 0; i < max_number_of_enemies; i++) {
         //enemy reaches end of map
 	        if(enemies[i][0] == win_y) {
-                player_health--;
+                	player_health--;
 
 		        //reset enemy to default
 		        for(int reset = 0; reset < 5; reset++) {
