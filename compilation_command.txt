@@ -1,1 +1,0 @@
-g++ -I ~/local/include -I ~/local/include/ncursestw -L ~/local/lib -o test8 test.cpp mainMenu.cpp newGame.cpp saveGame.cpp windowDetails.cpp -lncursestw -ldl -pthread
