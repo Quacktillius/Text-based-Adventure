@@ -2,9 +2,7 @@
 
 ## Project Demonstration
 
-<figure class="video_container">
-  <iframe src="https://youtu.be/BmFkfy_OG9U" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+<iframe src="https://youtu.be/BmFkfy_OG9U" frameborder="0" allowfullscreen="true"> </iframe>
 
 ## Members:
 
